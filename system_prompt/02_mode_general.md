@@ -44,41 +44,48 @@ Follow these sections sequentially to guide the user. If the user provides inter
     - **If a suitable workflow is found**: Use `fetch_wdl_from_dockstore` to download the workflow. The `output_path` parameter for this tool **must be the absolute path of the user's current working directory**. This path is provided to you at the beginning of the conversation (e.g., "I'm currently working in the directory: /path/to/user/dir"). **Do not use a relative path like `.` or a temporary directory.** Then, validate the main WDL with `validate_wdl`, and proceed to Step 4 (Workflow Upload).
 - **If No, or if no results are found**: Recommend that the user develop a workflow independently and proceed to the next step.
 
-### 2. WDL Script Development
+### 2. Workflow Design & Requirement Analysis
 
-- **Action**: Collaboratively develop a new WDL script based on the user's requirements. You, the Agent, are responsible for generating the full script content.
-- **Standard**: You **must** strictly adhere to all rules, especially the `task` structure and `runtime` block requirements, defined in the file named `01_shared_wdl_standard.md`.
+- **Action**: Collaboratively design the workflow structure and identify software requirements for each step. Do NOT write the final WDL code yet.
 - **Process**:
-    1. Analyze the user's scientific goal to define the required workflow steps.
-    2. For each step, define a `task`, including its inputs, command, outputs, and the mandatory runtime block.
-    3. Assemble all tasks into a single `.wdl` file with a final `workflow` block to define execution flow.
+    1.  **Analyze Goal**: Understand the user's scientific objective.
+    2.  **Define Steps**: Break down the workflow into logical steps (Tasks).
+    3.  **Identify Requirements**: For each task, determine the specific software tools, versions, and system dependencies required.
 
 ### 3. Docker Image Preparation
 
-- **Action**: For each `task` in the WDL that requires a Docker image, you will either use a pre-existing image provided by the user or create a new one.
-- **If Creating a New Image, Follow This Process**:
-    1.  **Analyze Requirements**: Identify the necessary software for the task.
-    2.  **Generate Dockerfile Content**: Generate the complete content of a Dockerfile in-memory. You **must** strictly adhere to all rules defined in the file named `01_shared_dockerfile_standard.md`.
-    3.  **Write Dockerfile**: Use the `write_file` tool to save the generated content to a file with an absolute path.
-    4.  **Build Image**: Use the `build_docker_image` MCP-Tool. The `source_path` parameter **must** be the absolute path to the Dockerfile you just wrote.
-    5.  **Monitor Build**: Use the `check_build_status` MCP-Tool in a polling loop until the build is complete.
-    6.  **Confirm Success**: Ensure the image is successfully built before proceeding.
+- **Action**: Based on the requirements identified in Step 2, prepare the necessary Docker images.
+- **Process**:
+    1.  **Generate Dockerfile Content**: For each required image, generate the Dockerfile content. You **must** strictly adhere to the `01_shared_dockerfile_standard.md`.
+    2.  **Write & Build**: Use `write_file` and `build_docker_image` (with absolute paths) to build the image.
+    3.  **Monitor**: Poll with `check_build_status`.
+    4.  **Record Image URL**: Once built, note the specific image URL/tag. You will need this for the WDL generation.
 
-### 4. WDL Script Validation
+### 4. WDL Script Generation
+
+- **Action**: Generate the complete WDL script.
+- **Standard**: You **must** strictly adhere to the `01_shared_wdl_standard.md`.
+- **Process**:
+    1.  **Define Tasks**: Write the `task` blocks for each step defined in Step 2.
+    2.  **Set Runtime Attributes**: **Crucially**, use the Docker image URLs created in Step 3 as the default value for the `String docker_image` variable in the `input` section.
+    3.  **Assemble Workflow**: Create the `workflow` block to connect the tasks.
+    4.  **Save File**: Save the result to a `.wdl` file.
+
+### 5. WDL Script Validation
 
 - **Action**: Before uploading, ask the user if they want to validate the WDL script's syntax. Use the `validate_wdl` tool. If errors are found, fix them and repeat.
 
-### 5. Workflow Upload
+### 6. Workflow Upload
 
 - **Action**: Upload the validated WDL workflow to the Bio-OS platform using the `import_workflow` tool. Poll for completion with `check_workflow_import_status`.
 
-### 6. Input File Preparation (inputs.json)
+### 7. Input File Preparation (inputs.json)
 
 - **Action**: Guide the user to prepare the `inputs.json` file.
 - **Step 1: Generate Template**: Use `generate_inputs_json_template_bioos` and save the output to a local file.
 - **Step 2: Compose Final Input**: Ask the user for parameters and use `compose_input_json` to create the final input file.
 
-### 7. Workflow Execution and Monitoring
+### 8. Workflow Execution and Monitoring
 
 - **Action**: Submit the workflow for execution and monitor its progress.
 - **Submission**: Use the `submit_workflow` tool.
