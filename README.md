@@ -33,7 +33,19 @@ The system prompt is maintained in a modular format under `system_prompt/` and c
     - `system_prompt/`: Modular source files for agent that supports multiple system instruction files.
     - `GEMINI.md`: Compiled single-instruction file for agent that supports one system instruction file.
 
+### Compilation Script
 
+To regenerate `GEMINI.md` after modifying the files in `system_prompt/`, run:
+
+```bash
+python3 compile_prompts.py
+```
+
+To validate the generated prompts:
+
+```bash
+python3 validate_prompts.py
+```
 
 ## Contact
 
