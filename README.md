@@ -33,7 +33,19 @@ The system prompt is maintained in a modular format under `system_prompt/` and c
     - `system_prompt/`: Modular source files for agent that supports multiple system instruction files.
     - `GEMINI.md`: Compiled single-instruction file for agent that supports one system instruction file.
 
+### Development Workflow
 
+This project uses an automated workflow to manage system prompts.
+
+1.  **Edit Source**: Modify the modular markdown files in the `system_prompt/` directory.
+2.  **Compile**: Run the compilation script to update `GEMINI.md`.
+    ```bash
+    python3 compile_prompts.py
+    ```
+3.  **Validate**: Before committing, ensure the compiled file is up-to-date.
+    ```bash
+    python3 validate_prompts.py
+    ```
 
 ## Contact
 

@@ -34,7 +34,7 @@ Use this schema for `{UUID}_p2w_card.json`. Do not deviate from this structure.
 
 ```json
 {
-  "$schema": "[http://json-schema.org/draft-07/schema#](http://json-schema.org/draft-07/schema#)",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Paper2Workspace_Context_v1",
   "type": "object",
   "required": ["schema_version", "status", "paper_meta_info", "reproduce_decision"],
