@@ -29,9 +29,25 @@ The system prompt is maintained in a modular format under `system_prompt/` and c
 ### Development Structure
 - Select a general coding agent like Cursor,Claude Code, Gemini CLI, CLINE.
 - Configure [bioos-mcp-server](https://github.com/GBA-BI/bioos-mcp-server/tree/main) to the general agent.
-- Deploy Bio-OS Navigen System pormpts to the general agent follow eithier way:
+- Deploy Bio-OS Navigen System prompts to the general agent follow either way:
     - `system_prompt/`: Modular source files for agent that supports multiple system instruction files.
     - `GEMINI.md`: Compiled single-instruction file for agent that supports one system instruction file.
+
+### Building and Validating
+This project uses Python scripts to manage the prompt generation.
+
+1.  **Validate Prompts**:
+    Check if the modular prompt files are valid (JSON syntax, closed code blocks, etc.).
+    ```bash
+    python3 validate_prompts.py
+    ```
+
+2.  **Compile Prompts**:
+    Merge the modular files into the single `GEMINI.md` file.
+    ```bash
+    python3 compile_prompts.py
+    ```
+    *Note: Always run this script after modifying files in `system_prompt/`.*
 
 
 
