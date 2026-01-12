@@ -196,11 +196,11 @@ This document defines the unified standard for generating Dockerfile content. Yo
 ### 1.4.1. Base Image (Mandatory)
 
 - All Dockerfiles **must** use the following base image:
-  `registry-vpc.miracle.ac.cn/infcprelease/ies-default:latest`
+  `registry-vpc.miracle.ac.cn/infcprelease/ies-default:v0.0.14`
 
 ### 1.4.2. Installation Methods (Flexible)
 
-- You have the flexibility to choose the best installation method based on the software requirements. The `registry-vpc.miracle.ac.cn/infcprelease/ies-default:latest` base image comes with `mamba` pre-installed.
+- You have the flexibility to choose the best installation method based on the software requirements. The `registry-vpc.miracle.ac.cn/infcprelease/ies-default:v0.0.14` base image comes with `mamba` pre-installed.
 - **Allowed Methods**:
     - `mamba install`: For packages available in Conda channels (like bioconda, conda-forge).
     - `pip install`: For packages available on PyPI.
@@ -218,6 +218,10 @@ This document defines the unified standard for generating Dockerfile content. Yo
 - **ENTRYPOINT**:
     - This directive should generally be **omitted**.
     - If absolutely necessary, it **must** be set only to `/bin/bash`. No other entrypoints are allowed. This ensures containers are interactive and compatible with WDL command overrides.
+- **Compiled Tools (`make`)**:
+    - If you install a tool from source (e.g., using `make`), you **must** ensure it is executable globally.
+    - **Option A**: Run `make install` (if supported).
+    - **Option B**: Add the build directory to the `PATH` environment variable: `ENV PATH="/path/to/build/bin:${PATH}"`.
 
 ### 1.4.5. Build Process and `source_path` Types
 
@@ -335,7 +339,7 @@ This guide provides solutions to common problems, particularly related to Docker
 ### Self-Checklist Before Proceeding
 
 #### Dockerfile
--   [ ] Base Image: `registry-vpc.miracle.ac.cn/infcprelease/ies-default:latest`
+-   [ ] Base Image: `registry-vpc.miracle.ac.cn/infcprelease/ies-default:v0.0.14`
 -   [ ] **No `ENTRYPOINT` set** that would conflict with WDL commands.
 -   [ ] Build docker through build_docker_image MCP tool.
 
@@ -475,9 +479,10 @@ Follow these sections sequentially to guide the user. If the user provides inter
     2.  **Session Management**:
         -   **Workspace Path**: At the start, ask the user for a local directory path to store all artifacts.
         -   **UUID Generation**: Upon successfully parsing a paper in Stage 1, generate a unique **UUID** (e.g., `550e8400-e29b...`).
+        -   **Timestamp**: Get the current time in `YYYYMMDD_HHMMSS` format.
         -   **File Naming**:
-            -   Log file: `{UUID}_p2w.log`
-            -   Card file: `{UUID}_p2w_card.json`
+            -   Log file: `{Timestamp}_{UUID}_p2w.log`
+            -   Card file: `{Timestamp}_{UUID}_p2w_card.json`
             -   Downloaded Repos/Data: Inside the workspace directory.
         -   **Artifact Handling**: All user-facing artifacts (cards, logs, plans) must be saved to the user's workspace directory.
 
@@ -488,7 +493,8 @@ Follow these sections sequentially to guide the user. If the user provides inter
 
     #### JSON Schema Definition
 
-    Use this schema for `{UUID}_p2w_card.json`. Do not deviate from this structure.
+    Use this schema definition as a reference for the structure of `{Timestamp}_{UUID}_p2w_card.json`.
+    **CRITICAL**: In your output, **DO NOT** print this schema definition. Only output the actual JSON data that adheres to this schema.
 
     ```json
     {
@@ -638,6 +644,7 @@ Follow these sections sequentially to guide the user. If the user provides inter
     3. **Analyze `paper_meta_info`**:
        * Identify `paper_type`.
        * Extract `github_repo_urls` and `dataset_urls`.
+       * Extract `abstract_summary`. **Mandatory**: If not explicitly found, you must fill this with "UNKNOWN" or a generated summary.
     4. **Make `reproduce_decision`**:
        * **IF** `paper_type` is "dataset" OR "tool_package" → Decision: **IES**.
        * **IF** `paper_type` is "drylab_analysis" AND has code/data → Decision: **WDL**.
@@ -687,7 +694,7 @@ Follow these sections sequentially to guide the user. If the user provides inter
        * **Step A**: Use `generate_inputs_json_template_bioos` to create a template.
        * **Step B**: Use `compose_input_json` to fill it with actual paths/data.
     4. **Output**:
-       * Update `{UUID}_p2w_card.json` with image tags and script paths.
+       * **CRITICAL**: Use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content including image tags and script paths.
        * Set `status` to `stage_3_complete`.
 
     ##### 【Stage 4】Bio-OS Deployment
@@ -708,7 +715,7 @@ Follow these sections sequentially to guide the user. If the user provides inter
        * **Step E**: If failed, use `get_workflow_logs` to retrieve logs.
     4. **Final Report**:
        * Summarize the entire run in the chat.
-       * Update `{UUID}_p2w_card.json` with final outputs and logs.
+       * **CRITICAL**: Use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the final outputs and logs.
        * Set `status` to `finished`.
 
 ### Mode 3: Talk2Workspace
