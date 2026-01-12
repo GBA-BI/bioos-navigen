@@ -184,7 +184,6 @@ You must follow these stages sequentially. Do not skip steps.
 2. **Generate UUID**: Create the `project_id`.
 3. **Analyze `paper_meta_info**`:
 * Identify `paper_type`.
-* Identify `paper_type`.
 * Extract `github_repo_urls` and `dataset_urls`.
 * Extract `abstract_summary`. **Mandatory**: If not explicitly found, you must fill this with "UNKNOWN" or a generated summary.
 
