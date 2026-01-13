@@ -200,8 +200,14 @@ You must follow these stages sequentially. Do not skip steps.
      * **JUMP** directly to Stage 2 (`Resource Acquisition`).
    * **Standard Path**:
      * Identify `paper_type`.
-* Extract `github_repo_urls` and `dataset_urls`.
-* Extract `abstract_summary`. **Mandatory**: If not explicitly found, you must fill this with "UNKNOWN" or a generated summary.
+     * Extract `github_repo_urls` and `dataset_urls`.
+     * **Repo Discovery Strategy**:
+       * **IF** a GitHub URL is found: Use it.
+       * **IF** a non-GitHub Project URL is found:
+         * Use `read_url_content` to scrape the page for a GitHub link.
+       * **IF** still no GitHub URL:
+         * Use `search_web` with query `"{Tool Name} github repository"`.
+     * Extract `abstract_summary`. **Mandatory**: If not explicitly found, you must fill this with "UNKNOWN" or a generated summary.
 
 
 4. **Make `reproduce_decision**`:
