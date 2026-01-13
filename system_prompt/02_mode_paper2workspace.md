@@ -254,9 +254,10 @@ You must follow these stages sequentially. Do not skip steps.
 * **Step B**: Use `compose_input_json` to fill it with actual paths/data.
 
 
-4. **Output**:
-* **CRITICAL**: Use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content including image tags and script paths.
-* Set `status` to `stage_3_complete`.
+4. **Finalize and Persist State**:
+    - **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content (including image tags).
+    - **Verification**: Read the file back to ensure the update persisted.
+    - Set `status` to `stage_3_complete`.
 
 
 
@@ -282,10 +283,11 @@ You must follow these stages sequentially. Do not skip steps.
 * **Step E**: If failed, use `get_workflow_logs` to retrieve logs.
 
 
-4. **Final Report**:
-* Summarize the entire run in the chat.
-* **CRITICAL**: Use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the final outputs and logs.
-* Set `status` to `finished`.
+4. **Finalize and Persist State**:
+    - Summarize the entire run in the chat.
+    - **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the final outputs and logs.
+    - **Verification**: Read the file back to ensure the update persisted.
+    - Set `status` to `finished`.
 
 
 

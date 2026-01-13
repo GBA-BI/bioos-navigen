@@ -27,10 +27,12 @@ This document defines the unified standard for generating Dockerfile content. Yo
 - **ENTRYPOINT**:
     - This directive should generally be **omitted**.
     - If absolutely necessary, it **must** be set only to `/bin/bash`. No other entrypoints are allowed. This ensures containers are interactive and compatible with WDL command overrides.
-- **Compiled Tools (`make`)**:
     - If you install a tool from source (e.g., using `make`), you **must** ensure it is executable globally.
-    - **Option A**: Run `make install` (if supported).
-    - **Option B**: Add the build directory to the `PATH` environment variable: `ENV PATH="/path/to/build/bin:${PATH}"`.
+    - **CRITICAL**: Simply running `make` is **INSUFFICIENT**. You must effectively "install" it.
+    - **BAD**: `RUN make` (The binary stays in the build dir, unavailable to the user).
+    - **GOOD (Option A)**: `RUN make && make install` (if supported).
+    - **GOOD (Option B)**: `RUN make && cp binary_name /usr/local/bin/`.
+    - **GOOD (Option C)**: `ENV PATH="/path/to/build/bin:${PATH}"`.
 
 ## 5. Build Process and `source_path` Types
 

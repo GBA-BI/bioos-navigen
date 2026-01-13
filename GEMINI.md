@@ -220,8 +220,11 @@ This document defines the unified standard for generating Dockerfile content. Yo
     - If absolutely necessary, it **must** be set only to `/bin/bash`. No other entrypoints are allowed. This ensures containers are interactive and compatible with WDL command overrides.
 - **Compiled Tools (`make`)**:
     - If you install a tool from source (e.g., using `make`), you **must** ensure it is executable globally.
-    - **Option A**: Run `make install` (if supported).
-    - **Option B**: Add the build directory to the `PATH` environment variable: `ENV PATH="/path/to/build/bin:${PATH}"`.
+    - **CRITICAL**: Simply running `make` is **INSUFFICIENT**. You must effectively "install" it.
+    - **BAD**: `RUN make` (The binary stays in the build dir, unavailable to the user).
+    - **GOOD (Option A)**: `RUN make && make install` (if supported).
+    - **GOOD (Option B)**: `RUN make && cp binary_name /usr/local/bin/`.
+    - **GOOD (Option C)**: `ENV PATH="/path/to/build/bin:${PATH}"`.
 
 ### 1.4.5. Build Process and `source_path` Types
 
@@ -693,8 +696,9 @@ Follow these sections sequentially to guide the user. If the user provides inter
     3. **Input JSON Preparation (If WDL)**:
        * **Step A**: Use `generate_inputs_json_template_bioos` to create a template.
        * **Step B**: Use `compose_input_json` to fill it with actual paths/data.
-    4. **Output**:
-       * **CRITICAL**: Use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content including image tags and script paths.
+    4. **Finalize and Persist State**:
+       * **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content (including image tags).
+       * **Verification**: Read the file back to ensure the update persisted.
        * Set `status` to `stage_3_complete`.
 
     ##### 【Stage 4】Bio-OS Deployment
@@ -713,9 +717,10 @@ Follow these sections sequentially to guide the user. If the user provides inter
        * **Step C**: Use `submit_workflow` (set `monitor: true`) to start the run.
        * **Step D**: Use `check_workflow_run_status` to monitor progress.
        * **Step E**: If failed, use `get_workflow_logs` to retrieve logs.
-    4. **Final Report**:
+    4. **Finalize and Persist State**:
        * Summarize the entire run in the chat.
-       * **CRITICAL**: Use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the final outputs and logs.
+       * **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the final outputs and logs.
+       * **Verification**: Read the file back to ensure the update persisted.
        * Set `status` to `finished`.
 
 ### Mode 3: Talk2Workspace
