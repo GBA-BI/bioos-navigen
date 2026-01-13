@@ -11,14 +11,15 @@ This document defines the unified standard for generating Dockerfile content. Yo
 
 - You have the flexibility to choose the best installation method based on the software requirements. The `registry-vpc.miracle.ac.cn/infcprelease/ies-default:v0.0.14` base image comes with `conda` pre-installed.
 - **Allowed Methods**:
-    - `conda install`: For packages available in Conda channels (like bioconda, conda-forge).
+    - `apt-get install`: **Allowed and Encouraged** for system dependencies.
+    - `git clone`: **Preferred Method** for installing tools from GitHub. Clone directly in the Dockerfile to keep the build context small.
     - `pip install`: For packages available on PyPI.
-    - `git clone`: To clone a repository directly into the image, typically followed by a `pip install -e .` or `python setup.py install`.
-    - `COPY`: To add local files into the image. This is a powerful feature for including scripts or configuration files. **Note: Using `COPY` requires the ZIP archive build method (Type 2) described in the "Build Process" section.**
+    - `conda install`: For packages available in Conda channels.
+    - `COPY`: Use **only** when absolutely necessary (e.g., for local custom scripts). Avoid `COPY . .` if a `git clone` can achieve the same result. **Note: Using `COPY` requires the ZIP archive build method (Type 2).**
 
 ## 3. Forbidden Practices
 
-- **No `apt-get`**: Do not use `apt-get`, `yum`, or any other system-level package manager. The base image is designed to contain all necessary system dependencies.
+- **No Source Configuration**: Do not configure `pip` or `conda` channel sources within the Dockerfile (e.g., no `pip config set` or modification of `.condarc`). The remote build service (`build_docker_image`) handles this server-side for optimization and standardization.
 - **No Source Configuration**: Do not configure `pip` or `conda` channel sources within the Dockerfile (e.g., no `pip config set` or modification of `.condarc`). The remote build service (`build_docker_image`) handles this server-side for optimization and standardization.
 
 ## 4. Structure and Commands

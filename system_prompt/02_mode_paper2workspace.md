@@ -164,6 +164,15 @@ Use this schema definition as a reference for the structure of `{Timestamp}_{UUI
           }
         }
       }
+    },
+    "final_outputs": {
+      "type": "object",
+      "properties": {
+        "ies_app_id": { "type": "string" },
+        "workflow_id": { "type": "string" },
+        "workspace": { "type": "string" },
+        "outputs": { "type": "object" }
+      }
     }
   }
 }
@@ -180,10 +189,17 @@ You must follow these stages sequentially. Do not skip steps.
 
 **Goal:** Read the paper, extract metadata, and determine if it can be reproduced.
 
-1. **Ingest**: Read the provided PDF/Text.
-2. **Generate UUID**: Create the `project_id`.
-3. **Analyze `paper_meta_info**`:
-* Identify `paper_type`.
+1. **Ingest**: Read the provided PDF/Text OR recognize a direct GitHub URL.
+2. **Generate UUID**: Create the `project_id`. Initialization of the Card is required for ALL paths.
+3. **Analyze `paper_meta_info`**:
+   * **SHORTCUT**: If the user provided a **Direct GitHub URL**:
+     * Skip paper analysis.
+     * Fill `paper_type` = "tool_package" (default assumption).
+     * Fill `github_repo_urls` with the provided URL.
+     * Fill `abstract_summary` with "Direct GitHub Repo provided by user."
+     * **JUMP** directly to Stage 2 (`Resource Acquisition`).
+   * **Standard Path**:
+     * Identify `paper_type`.
 * Extract `github_repo_urls` and `dataset_urls`.
 * Extract `abstract_summary`. **Mandatory**: If not explicitly found, you must fill this with "UNKNOWN" or a generated summary.
 
@@ -255,7 +271,8 @@ You must follow these stages sequentially. Do not skip steps.
 
 
 4. **Finalize and Persist State**:
-    - **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content (including image tags).
+    - **CRITICAL**: Update `analytical_procedures.steps[].environment.docker_image` with the **actual built image URL** (e.g., `registry-vpc...:tag`).
+    - **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content.
     - **Verification**: Read the file back to ensure the update persisted.
     - Set `status` to `stage_3_complete`.
 
@@ -285,6 +302,7 @@ You must follow these stages sequentially. Do not skip steps.
 
 4. **Finalize and Persist State**:
     - Summarize the entire run in the chat.
+    - **CRITICAL**: Update the `final_outputs` section in the card with `ies_app_id` (for IES) or `workflow_id` (for WDL) and the workspace name.
     - **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the final outputs and logs.
     - **Verification**: Read the file back to ensure the update persisted.
     - Set `status` to `finished`.

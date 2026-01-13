@@ -202,14 +202,15 @@ This document defines the unified standard for generating Dockerfile content. Yo
 
 - You have the flexibility to choose the best installation method based on the software requirements. The `registry-vpc.miracle.ac.cn/infcprelease/ies-default:v0.0.14` base image comes with `mamba` pre-installed.
 - **Allowed Methods**:
-    - `mamba install`: For packages available in Conda channels (like bioconda, conda-forge).
+    - `apt-get install`: **Allowed and Encouraged** for system dependencies.
+    - `git clone`: **Preferred Method** for installing tools from GitHub. Clone directly in the Dockerfile to keep the build context small.
     - `pip install`: For packages available on PyPI.
-    - `git clone`: To clone a repository directly into the image, typically followed by a `pip install -e .` or `python setup.py install`.
-    - `COPY`: To add local files into the image. This is a powerful feature for including scripts or configuration files. **Note: Using `COPY` requires the ZIP archive build method (Type 2) described in the "Build Process" section.**
+    - `conda install`: For packages available in Conda channels.
+    - `COPY`: Use **only** when absolutely necessary (e.g., for local custom scripts). Avoid `COPY . .` if a `git clone` can achieve the same result. **Note: Using `COPY` requires the ZIP archive build method (Type 2).**
 
 ### 1.4.3. Forbidden Practices
 
-- **No `apt-get`**: Do not use `apt-get`, `yum`, or any other system-level package manager. The base image is designed to contain all necessary system dependencies.
+- **No Source Configuration**: Do not configure `pip` or `conda` channel sources within the Dockerfile (e.g., no `pip config set` or modification of `.condarc`). The remote build service (`build_docker_image`) handles this server-side for optimization and standardization.
 - **No Source Configuration**: Do not configure `pip` or `conda` channel sources within the Dockerfile (e.g., no `pip config set` or modification of `.condarc`). The remote build service (`build_docker_image`) handles this server-side for optimization and standardization.
 
 ### 1.4.4. Structure and Commands
@@ -642,10 +643,17 @@ Follow these sections sequentially to guide the user. If the user provides inter
 
     **Goal:** Read the paper, extract metadata, and determine if it can be reproduced.
 
-    1. **Ingest**: Read the provided PDF/Text.
-    2. **Generate UUID**: Create the `project_id`.
+    1. **Ingest**: Read the provided PDF/Text OR recognize a direct GitHub URL.
+    2. **Generate UUID**: Create the `project_id`. Initialization of the Card is required for ALL paths.
     3. **Analyze `paper_meta_info`**:
-       * Identify `paper_type`.
+       * **SHORTCUT**: If the user provided a **Direct GitHub URL**:
+         * Skip paper analysis.
+         * Fill `paper_type` = "tool_package" (default assumption).
+         * Fill `github_repo_urls` with the provided URL.
+         * Fill `abstract_summary` with "Direct GitHub Repo provided by user."
+         * **JUMP** directly to Stage 2 (`Resource Acquisition`).
+       * **Standard Path**:
+         * Identify `paper_type`.
        * Extract `github_repo_urls` and `dataset_urls`.
        * Extract `abstract_summary`. **Mandatory**: If not explicitly found, you must fill this with "UNKNOWN" or a generated summary.
     4. **Make `reproduce_decision`**:
@@ -697,7 +705,8 @@ Follow these sections sequentially to guide the user. If the user provides inter
        * **Step A**: Use `generate_inputs_json_template_bioos` to create a template.
        * **Step B**: Use `compose_input_json` to fill it with actual paths/data.
     4. **Finalize and Persist State**:
-       * **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content (including image tags).
+       * **CRITICAL**: Update `analytical_procedures.steps[].environment.docker_image` with the **actual built image URL** (e.g., `registry-vpc...:tag`).
+       * **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content.
        * **Verification**: Read the file back to ensure the update persisted.
        * Set `status` to `stage_3_complete`.
 
@@ -719,6 +728,7 @@ Follow these sections sequentially to guide the user. If the user provides inter
        * **Step E**: If failed, use `get_workflow_logs` to retrieve logs.
     4. **Finalize and Persist State**:
        * Summarize the entire run in the chat.
+       * **CRITICAL**: Update the `final_outputs` section in the card with `ies_app_id` (for IES) or `workflow_id` (for WDL) and the workspace name.
        * **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the final outputs and logs.
        * **Verification**: Read the file back to ensure the update persisted.
        * Set `status` to `finished`.
