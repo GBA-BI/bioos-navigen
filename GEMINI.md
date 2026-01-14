@@ -535,7 +535,18 @@ Follow these sections sequentially to guide the user. If the user provides inter
               "description": "dataset/tool_package -> IES; drylab_analysis -> WDL; others -> REJECT"
             },
             "github_repo_urls": { "type": "array", "items": { "type": "string" } },
-            "dataset_urls": { "type": "array", "items": { "type": "string" } },
+            "datasets_catalog": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "source": { "type": "string", "description": "e.g., 'Direct URL', 'GEO', 'SRA', 'Zenodo'" },
+                  "identifier": { "type": "string", "description": "The URL or Accession ID (e.g., GSE12345)" },
+                  "description": { "type": "string" }
+                },
+                "required": ["source", "identifier"]
+              }
+            },
             "abstract_summary": { "type": "string" }
           }
         },
@@ -659,7 +670,8 @@ Follow these sections sequentially to guide the user. If the user provides inter
          * **JUMP** directly to Stage 2 (`Resource Acquisition`).
        * **Standard Path**:
          * Identify `paper_type`.
-         * Extract `github_repo_urls` and `dataset_urls`.
+         * Extract `github_repo_urls`.
+         * Extract `datasets_catalog`: Look for accession codes (GSE, SRP, PRJNA) or direct URLs.
          * **Repo Discovery Strategy**:
            * **IF** a GitHub URL is found: Use it.
            * **IF** a non-GitHub Project URL is found:
