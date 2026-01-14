@@ -39,6 +39,11 @@ This document defines the unified standard for generating Dockerfile content. Yo
 
 The `build_docker_image` MCP-Tool accepts two types of `source_path` parameter. Your primary decision is to determine if your Dockerfile requires the `COPY` instruction.
 
+### **Restricted Filename Rule**
+- The Dockerfile **must** be named exactly `Dockerfile` (case-sensitive, no extensions).
+- **CRITICAL**: Do NOT use names like `Dockerfile.bwa` or `bwa.dockerfile`. The system will reject them.
+
+
 ### Type 1: Direct Dockerfile Path (for self-contained Dockerfiles)
 -   **When to Use**: Use this simpler method when your Dockerfile is self-contained and does **not** require any `COPY` instructions for local files. It can still use `RUN` commands with `pip`, `conda`, or `git clone`.
 -   **Process**: Provide the absolute path directly to the `Dockerfile` as the `source_path` parameter.
