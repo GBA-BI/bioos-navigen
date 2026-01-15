@@ -32,6 +32,7 @@ The system prompt is maintained in a modular format under `system_prompt/` and c
 - Deploy Bio-OS Navigen System pormpts to the general agent follow eithier way:
     - `system_prompt/`: Modular source files for agent that supports multiple system instruction files.
     - `GEMINI.md`: Compiled single-instruction file for agent that supports one system instruction file.
+    - `skills/`: **[NEW]** Agent Skills format. Specialized, progressive skills (`bioos_navigen_p2w`, etc.) for agents supporting the [Agent Skills Standard](https://agentskills.io).
 
 
 
