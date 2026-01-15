@@ -1,0 +1,25 @@
+name: Validate Prompts
+
+on:
+  push:
+    paths:
+      - 'system_prompt/**'
+      - 'validate_prompts.py'
+  pull_request:
+    paths:
+      - 'system_prompt/**'
+      - 'validate_prompts.py'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Run Validation Script
+        run: python validate_prompts.py

@@ -13,8 +13,8 @@ This project is currently in a **Trial / Beta** phase. We are actively refining 
 | :--- | :--- | :--- |
 | **Mode 1** | **General Mode**<br>Interactive guide for general bioinformatics analysis. | ✅ **Available for Trial** |
 | **Mode 2** | **Paper2Workspace**<br>Reproduce analysis environments/workflows from scientific papers. | ✅ **Available for Trial** |
-| **Mode 3** | **Talk2Workspace**<br>Chat with your existing Bio-OS workspace (Q&A, Operations). | 🚧 **In Development** |
-| **Mode 4** | **Workspace2Paper**<br>Draft scientific manuscripts based on workspace results. | 🚧 **In Development** |
+| **Mode 3** | **Talk2Workspace**<br>Chat with your existing Bio-OS workspace (Q&A, Operations). | ✅ **Available for Trial** |
+| **Mode 4** | **Workspace2Paper**<br>Draft scientific manuscripts based on workspace results. | ✅ **Available for Trial** |
 
 ## Core Features
 
@@ -25,6 +25,15 @@ This project is currently in a **Trial / Beta** phase. We are actively refining 
 ## Development
 
 The system prompt is maintained in a modular format under `system_prompt/` and compiled into a single file `GEMINI.md` for deployment.
+
+### Automated Prompt Management
+
+We provide scripts to automate the maintenance of the system prompt:
+
+-   `validate_prompts.py`: Validates the syntax of all markdown files in `system_prompt/`, checking for valid JSON blocks and structural issues.
+-   `compile_prompts.py`: Concatenates all files in `system_prompt/` into the single `GEMINI.md` file.
+
+These checks are automatically run via GitHub Actions on every push.
 
 ### Development Structure
 - Select a general coding agent like Cursor,Claude Code, Gemini CLI, CLINE.
