@@ -273,6 +273,10 @@ You must follow these stages sequentially. Do not skip steps.
 * **Step B**: Use `write_file` to save the Dockerfile to an absolute path.
 * **Step C**: Use `build_docker_image` to build the image.
 * **Step D**: Use `check_build_status` to verify success.
+* **Build Retry Strategy**:
+    * If the build fails and you are attempting a **Source Build** (compiling from git/source):
+    * Retry up to **3 times** with fixes.
+    * **CRITICAL**: If it fails **3 times**, you **MUST** pause and consult the user. Propose switching to a **Binary Installation** (e.g., `pip install`, `mamba install bioconda::tool`) instead of compiling from source.
 * *Constraint*: Strictly follow `01_shared_dockerfile_standard.md`.
 
 

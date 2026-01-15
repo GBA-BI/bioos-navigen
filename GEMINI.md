@@ -216,9 +216,10 @@ This document defines the unified standard for generating Dockerfile content. Yo
 ### 1.4.4. Structure and Commands
 
 - **WORKDIR**: You **must** set a working directory, for example: `WORKDIR /app`.
-- **ENTRYPOINT**:
-    - This directive should generally be **omitted**.
-    - If absolutely necessary, it **must** be set only to `/bin/bash`. No other entrypoints are allowed. This ensures containers are interactive and compatible with WDL command overrides.
+- **ENTRYPOINT & CMD**:
+    - **CRITICAL**: You **MUST NOT** include `ENTRYPOINT` or `CMD` instructions at the end of your Dockerfile (e.g., `CMD ["/bin/bash"]`).
+    - **Reason**: The base image already handles the entrypoint for the IES environment. Overriding it causes startup failures.
+    - **Exception**: If absolutely necessary for a specific *non-interactive* container, it must be `["/bin/bash"]`, but generally **omit it entirely**.
 - **Compiled Tools (`make`)**:
     - If you install a tool from source (e.g., using `make`), you **must** ensure it is executable globally.
     - **CRITICAL**: Simply running `make` is **INSUFFICIENT**. You must effectively "install" it.
@@ -718,6 +719,10 @@ Follow these sections sequentially to guide the user. If the user provides inter
        * **Step B**: Use `write_file` to save the Dockerfile to an absolute path.
        * **Step C**: Use `build_docker_image` to build the image.
        * **Step D**: Use `check_build_status` to verify success.
+       * **Build Retry Strategy**:
+           * If the build fails and you are attempting a **Source Build** (compiling from git/source):
+           * Retry up to **3 times** with fixes.
+           * **CRITICAL**: If it fails **3 times**, you **MUST** pause and consult the user. Propose switching to a **Binary Installation** (e.g., `pip install`, `mamba install bioconda::tool`) instead of compiling from source.
        * *Constraint*: Strictly follow `Part 1.4: Dockerfile Generation Standard`.
     2. **WDL Generation (If WDL)**:
        * **Step A**: Generate the content for the `.wdl` file based on the steps in the Card.

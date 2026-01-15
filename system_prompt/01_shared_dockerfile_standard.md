@@ -25,9 +25,10 @@ This document defines the unified standard for generating Dockerfile content. Yo
 ## 4. Structure and Commands
 
 - **WORKDIR**: You **must** set a working directory, for example: `WORKDIR /app`.
-- **ENTRYPOINT**:
-    - This directive should generally be **omitted**.
-    - If absolutely necessary, it **must** be set only to `/bin/bash`. No other entrypoints are allowed. This ensures containers are interactive and compatible with WDL command overrides.
+- **ENTRYPOINT & CMD**:
+    - **CRITICAL**: You **MUST NOT** include `ENTRYPOINT` or `CMD` instructions at the end of your Dockerfile (e.g., `CMD ["/bin/bash"]`).
+    - **Reason**: The base image already handles the entrypoint for the IES environment. Overriding it causes startup failures.
+    - **Exception**: If absolutely necessary for a specific *non-interactive* container, it must be `["/bin/bash"]`, but generally **omit it entirely**.
     - If you install a tool from source (e.g., using `make`), you **must** ensure it is executable globally.
     - **CRITICAL**: Simply running `make` is **INSUFFICIENT**. You must effectively "install" it.
     - **BAD**: `RUN make` (The binary stays in the build dir, unavailable to the user).
