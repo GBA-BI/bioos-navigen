@@ -34,6 +34,12 @@ The system prompt is maintained in a modular format under `system_prompt/` and c
     - `GEMINI.md`: Compiled single-instruction file for agent that supports one system instruction file.
     - `skills/`: **[NEW]** Agent Skills format. Specialized, progressive skills (`bioos_navigen_p2w`, etc.) for agents supporting the [Agent Skills Standard](https://agentskills.io).
 
+### Prompt Development
+To modify the system prompt:
+1. Edit the files in `system_prompt/`.
+2. Run `python3 validate_prompts.py` to check for errors.
+3. Run `python3 compile_prompts.py` to regenerate `GEMINI.md`.
+
 
 
 ## Contact
