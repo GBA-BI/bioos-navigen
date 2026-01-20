@@ -1,0 +1,35 @@
+name: Validate and Compile Prompts
+
+on:
+  push:
+    paths:
+      - 'system_prompt/**'
+      - 'validate_prompts.py'
+      - 'compile_prompts.py'
+  pull_request:
+    paths:
+      - 'system_prompt/**'
+      - 'validate_prompts.py'
+      - 'compile_prompts.py'
+
+jobs:
+  validate-and-compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Validate Prompts
+        run: python3 validate_prompts.py
+
+      - name: Compile Prompts
+        run: python3 compile_prompts.py
+
+      - name: Check for Changes in GEMINI.md
+        run: |
+          git diff --exit-code GEMINI.md || (echo "GEMINI.md is out of sync. Please run compile_prompts.py and commit the result." && exit 1)
