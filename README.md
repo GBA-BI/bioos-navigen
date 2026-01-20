@@ -34,7 +34,18 @@ The system prompt is maintained in a modular format under `system_prompt/` and c
     - `GEMINI.md`: Compiled single-instruction file for agent that supports one system instruction file.
     - `skills/`: **[NEW]** Agent Skills format. Specialized, progressive skills (`bioos_navigen_p2w`, etc.) for agents supporting the [Agent Skills Standard](https://agentskills.io).
 
+### Tooling
 
+We provide scripts to automate the maintenance of the system prompt:
+
+1.  **Validate**: `python3 validate_prompts.py`
+    - Checks for valid JSON syntax in code blocks.
+    - Warns about `TODO` or `FIXME` markers.
+2.  **Compile**: `python3 compile_prompts.py`
+    - Concatenates files from `system_prompt/` into `GEMINI.md`.
+    - Adds headers and source markers.
+
+**Workflow**: After modifying any file in `system_prompt/`, you **must** run `python3 compile_prompts.py` and commit the updated `GEMINI.md`.
 
 ## Contact
 
