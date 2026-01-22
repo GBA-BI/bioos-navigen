@@ -26,6 +26,15 @@ This project is currently in a **Trial / Beta** phase. We are actively refining 
 
 The system prompt is maintained in a modular format under `system_prompt/` and compiled into a single file `GEMINI.md` for deployment.
 
+### Prompt Maintenance
+This repository uses a build process to ensure `GEMINI.md` is always valid and up-to-date.
+
+1.  **Modify**: Edit source files in the `system_prompt/` directory.
+2.  **Validate**: Run `python3 validate_prompts.py` to check for JSON syntax errors and TODO markers.
+3.  **Compile**: Run `python3 compile_prompts.py` to regenerate `GEMINI.md`.
+
+> **Note**: Do not edit `GEMINI.md` directly. It is auto-generated and your changes will be overwritten.
+
 ### Development Structure
 - Select a general coding agent like Cursor,Claude Code, Gemini CLI, CLINE.
 - Configure [bioos-mcp-server](https://github.com/GBA-BI/bioos-mcp-server/tree/main) to the general agent.
