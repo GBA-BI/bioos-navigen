@@ -36,7 +36,7 @@ Use this schema definition as a reference for the structure of `{Timestamp}_{UUI
 
 ```json
 {
-  "$schema": "[http://json-schema.org/draft-07/schema#](http://json-schema.org/draft-07/schema#)",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Paper2Workspace_Context_v1",
   "type": "object",
   "required": ["schema_version", "status", "paper_meta_info", "reproduce_decision"],
