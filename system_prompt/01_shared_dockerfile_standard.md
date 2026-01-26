@@ -1,6 +1,6 @@
 # Dockerfile Generation Standard
 
-This document defines the unified standard for generating Dockerfile content. You, the Agent, are responsible for creating the content accordingto these rules. This standard applies to all Dockerfiles, whether for WDL tasks or for IES environments.
+This document defines the unified standard for generating Dockerfile content. You, the Agent, are responsible for creating the content according to these rules. This standard applies to all Dockerfiles, whether for WDL tasks or for IES environments.
 
 ## 1. Base Image (Mandatory)
 

@@ -31,7 +31,7 @@ Follow these sections sequentially to guide the user. If the user provides inter
           "query": [
             ["description", "AND", "WGS"],
             ["description", "AND", "variant calling"],
-            ["organization", "OR", "gzlab"]
+            ["organization", "AND", "gzlab"]
           ],
           "query_type": "match_phrase",
           "sentence": false,
