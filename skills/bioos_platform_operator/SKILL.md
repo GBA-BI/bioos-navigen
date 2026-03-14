@@ -1,0 +1,43 @@
+---
+name: bioos_platform_operator
+description: Submit and monitor WDL workflows (including inputs.json generation) on Bio-OS platform, and create IES application instances on Bio-OS platform. Trigger after WDL paths and inputs parameters are known.
+---
+
+# Bio-OS Platform Operator
+
+## 1. Operating Principle
+This procedure defines how to manage execution on the Bio-OS platform, including the deployment and monitoring of WDL workflows and Interactive Environments.
+
+## 1. WDL Workflows Submission
+
+To submit and execute a WDL workflow on Bio-OS, strictly follow this procedure:
+
+### Step 1: Workflow Registration
+Determine if the WDL is a local file or already exists on the Bio-OS workspace.
+*   **Scenario A (Local/Bundled WDL)**: If the provided input is a local WDL path (e.g., `scripts/download_sra.wdl` or a newly generated WDL), use `import_workflow` to upload it to the target workspace. Then use `check_workflow_import_status` in a loop until SUCCESS. Take note of the newly registered workflow's name.
+*   **Scenario B (Existing WDL)**: If the provided input is the name of a workflow already on Bio-OS, skip the import and use that name directly.
+
+### Step 2: Prepare `inputs.json`
+Construct the `inputs.json` for the workflow.
+1.  Use `generate_inputs_json_template_bioos` with the registered workflow name to retrieve the required input schema.
+2.  Fill in the required values based on the parameters required for the analysis (e.g., SRR IDs, or sample arrays).
+    *   **CRITICAL PAUSE**: If the generated `inputs.json` template asks for information, reference files, or database paths that you cannot confidently deduce from the context or the Workspace artifacts, you **MUST IMMEDIATELY ask the user** for these values. Do NOT guess or invent reference paths.
+3.  **Batch Submissions (CRITICAL)**: If the workflow needs to process multiple distinct items in parallel (e.g., fetching multiple SRR/GSE IDs, or analyzing multiple valid FASTQ pairs), you **MUST** format the `inputs.json` as a JSON **array of objects** to trigger a batch run on Bio-OS.
+    *   Example: `[{"TargetWDL.id": "ID1"}, {"TargetWDL.id": "ID2"}]`
+
+### Step 3: Execution and Monitoring
+1.  **Submit**: Call `submit_workflow` using the prepared `inputs.json` file path. (**CRITICAL**: set `monitor: false` to avoid blocking the agent during execution).
+2.  **Poll**: Call `check_workflow_run_status` periodically until `Succeeded` or `Failed`.
+3.  **Debug**: On failure, retrieve and summarize `get_workflow_logs`.
+4.  **Parse Outputs (CRITICAL)**: On `Succeeded`, use the bundled script `scripts/parse_workflow_outputs.py` to extract the S3 outputs into a CSV table.
+    *   Save the full console output text of `check_workflow_run_status` into a temporary file (e.g., `/tmp/mcp_output.txt`).
+    *   Run: `python scripts/parse_workflow_outputs.py -i /tmp/mcp_output.txt -o <results.csv>`
+    *   Read the CSV to obtain the parsed asset list for subsequent analysis steps.
+
+## 2. IES Applications (Interactive Environments)
+
+To launch an IES App (e.g., Jupyter, RStudio):
+1.  **Submit**: Call `create_iesapp` using the verified `docker_image` URL.
+2.  **Poll**: Call `check_ies_status` periodically until the status is `Running`.
+3.  **Handoff**: Once the status hits `Running`, inform the user that their environment is ready. You DO NOT need to monitor its execution further.
+4.  **Debug**: If it fails before reaching `Running` (e.g., `Failed`), retrieve `get_ies_events` for root-cause analysis.

@@ -5,16 +5,15 @@ The **Bio-OS Navigen Agent** is a specialized, intelligent assistant designed to
 ## Project Status
 
 > [!IMPORTANT]
-> **Current Phase**: Pilot / Trial Run (试运行阶段)
+> **Current Phase**: V1 Release (Agent SKILLs Edition)
 
-This project is currently in a **Trial / Beta** phase. We are actively refining the agent's capabilities and stability.
+Bio-OS Navigen has evolved into a fully modular, plug-and-play **3-Tier Agent Capability Architecture**.
 
-| Mode | Function | Status |
+| Tier | Abstraction Layer | Core SKILLs |
 | :--- | :--- | :--- |
-| **Mode 1** | **General Mode**<br>Interactive guide for general bioinformatics analysis. | ✅ **Available for Trial** |
-| **Mode 2** | **Paper2Workspace**<br>Reproduce analysis environments/workflows from scientific papers. | ✅ **Available for Trial** |
-| **Mode 3** | **Talk2Workspace**<br>Chat with your existing Bio-OS workspace (Q&A, Operations). | 🚧 **In Development** |
-| **Mode 4** | **Workspace2Paper**<br>Draft scientific manuscripts based on workspace results. | 🚧 **In Development** |
+| **Tier 1** | **Atomic Capabilities**<br>Focused, script-backed tools (Data fetching, environment building). | `bioos_data_fetcher`, `bioos_docker_builder`, `bioos_wdl_scripter`, `bioos_workspace_parser`, `bioos_platform_operator` |
+| **Tier 2** | **Core Workflows**<br>Orchestrators for building pipelines or complex sub-routines. | `bioos_pipeline_developer` |
+| **Tier 3** | **Business Modes / SOPs**<br>High-level intent handlers that orchestrate Tiers 1 and 2. | `bioos_paper2workspace`, `bioos_workspace2paper` |
 
 ## Core Features
 
@@ -26,13 +25,13 @@ This project is currently in a **Trial / Beta** phase. We are actively refining 
 
 The system prompt is maintained in a modular format under `system_prompt/` and compiled into a single file `GEMINI.md` for deployment.
 
-### Development Structure
-- Select a general coding agent like Cursor,Claude Code, Gemini CLI, CLINE.
-- Configure [bioos-mcp-server](https://github.com/GBA-BI/bioos-mcp-server/tree/main) to the general agent.
-- Deploy Bio-OS Navigen System pormpts to the general agent follow eithier way:
-    - `system_prompt/`: Modular source files for agent that supports multiple system instruction files.
-    - `GEMINI.md`: Compiled single-instruction file for agent that supports one system instruction file.
-    - `skills/`: **[NEW]** Agent Skills format. Specialized, progressive skills (`bioos_navigen_p2w`, etc.) for agents supporting the [Agent Skills Standard](https://agentskills.io).
+### Deployment Options
+To use Bio-OS Navigen, configure your preferred agent (e.g., Cline, Cursor, Google Antigravity) with the [bioos-mcp-server](https://github.com/GBA-BI/bioos-mcp-server/tree/main). 
+
+Then, provide the Navigen instructions to your agent using one of the following methods:
+1. **Agent SKILLs (Recommended)**: Copy the entire `skills/` directory into your agent's designated workspace or `.agent/skills` folder. This leverages the new modular 3-Tier architecture.
+2. **Single File `GEMINI.md`**: For agents supporting only a single system prompt, use the compiled monolithic file.
+3. **Modular `system_prompt/`**: For general agents supporting multiple prompt imports.
 
 
 
