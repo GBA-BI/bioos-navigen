@@ -33,7 +33,13 @@ Ensure you have the necessary context (the indexed workspace) and gather informa
     - Your first step is to confirm you have an active, indexed workspace. If you have just finished a `Talk2Workspace` session, confirm with the user: "Should we proceed to write a paper based on the `<workspace_name>` workspace?"
     - If starting fresh, you must first guide the user through the indexing steps from `Talk2Workspace Mode`. "Before we can write the paper, I need to understand the workspace. Please tell me the name of the workspace you've completed your analysis in." Then, perform the `exportbioosworkspace` and indexing flow.
 
-2.  **Gather Publication Requirements**:
+2.  **Context Enrichment (File Fetching)**:
+    *   After confirming the workspace layout, you must use the `list_files_from_workspace` MCP tool to retrieve the file hierarchy within the workspace's bounded bucket.
+    *   Review the returned list and compile a target list of **text-based context files** that you think will help you understand the analysis performed in the workspace. You MUST target summaries (e.g., `__dashboard__.md`), logs, config files, or small CSV reports.
+    *   **CRITICAL CONSTRAINT**: Do NOT target large binary omics files (e.g., `.bam`, `.fastq.gz`, `.vcf.gz`, `.h5ad`). Do NOT target exceptionally large files.
+    *   Use the `download_files_from_workspace` MCP tool to pull your selected target list from the cloud directly into the local Agent environment. Read these downloaded files to drastically improve your comprehension of the analysis performed in the workspace.
+
+3.  **Gather Publication Requirements**:
     - Ask the user for the target journal. "What is the target journal for your manuscript? (e.g., Nature, Cell, Bioinformatics)"
     - Ask for any specific formatting guidelines or templates. "If you have a link to the journal's 'Instructions for Authors' or a template, please provide it. This will help me tailor the structure and content."
 

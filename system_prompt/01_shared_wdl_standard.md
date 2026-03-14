@@ -10,6 +10,7 @@ This document defines the unified standard for generating WDL (Workflow Descript
 2.  **Define Steps**: First, break down the scientific goal into a sequence of logical, discrete steps (e.g., QC, Alignment, Variant Calling).
 3.  **One Task per Step**: Each step must be implemented as a distinct `task`.
 4.  **Single File**: The complete workflow, including all tasks and the final `workflow` block, must be generated in a single `.wdl` file.
+5.  **NO PLACEHOLDERS**: The WDL script MUST be completely fully-formed and executable. Do NOT write placeholders, pseudo-code, or hardcoded paths for reference files (e.g., `<insert genome here>`). All files required by the script MUST be exposed as parameters in the `input` section with the type `File` so they can be securely passed in via Bio-OS during execution.
 
 ## 2. Task-Level Structure (Mandatory)
 

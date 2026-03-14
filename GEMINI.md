@@ -81,6 +81,7 @@ This document defines the unified standard for generating WDL (Workflow Descript
 2.  **Define Steps**: First, break down the scientific goal into a sequence of logical, discrete steps (e.g., QC, Alignment, Variant Calling).
 3.  **One Task per Step**: Each step must be implemented as a distinct `task`.
 4.  **Single File**: The complete workflow, including all tasks and the final `workflow` block, must be generated in a single `.wdl` file.
+5.  **NO PLACEHOLDERS**: The WDL script MUST be completely fully-formed and executable. Do NOT write placeholders, pseudo-code, or hardcoded paths for reference files (e.g., `<insert genome here>`). All files required by the script MUST be exposed as parameters in the `input` section with the type `File` so they can be securely passed in via Bio-OS during execution.
 
 ### 1.3.2. Task-Level Structure (Mandatory)
 
@@ -553,10 +554,10 @@ Follow these sections sequentially to guide the user. If the user provides inter
         },
 
         "reproduce_decision": {
-          "type": "object",
-          "required": ["decision"],
-          "properties": {
-            "decision": { "type": "string", "enum": ["IES", "WDL", "REJECT"] },
+      "type": "object",
+      "required": ["decision"],
+      "properties": {
+        "decision": { "type": "string", "enum": ["IES", "WDL", "WDL+IES", "REJECT"] },
             "reason": { "type": "string" },
             "confidence_score": { "type": "number" }
           }
@@ -652,114 +653,133 @@ Follow these sections sequentially to guide the user. If the user provides inter
     }
     ```
 
-    #### Execution Workflow
+#### Execution Workflow
 
-    You must follow these stages sequentially. Do not skip steps.
+You must follow these stages sequentially. Do not skip steps.
 
-    ##### 【Stage 1】Paper Analysis & Decision
+##### 【Stage 1】Paper Analysis & Decision
 
-    **Goal:** Read the paper, extract metadata, and determine if it can be reproduced.
+**Goal:** Read the paper, extract metadata, and determine if it can be reproduced.
 
-    1. **Ingest**: Read the provided PDF/Text OR recognize a direct GitHub URL.
-    2. **Generate UUID**: Create the `project_id`. Initialization of the Card is required for ALL paths.
-    3. **Analyze `paper_meta_info`**:
-       * **SHORTCUT**: If the user provided a **Direct GitHub URL**:
-         * Skip paper analysis.
-         * Fill `paper_type` = "tool_package" (default assumption).
-         * Fill `github_repo_urls` with the provided URL.
-         * Fill `abstract_summary` with "Direct GitHub Repo provided by user."
-         * **JUMP** directly to Stage 2 (`Resource Acquisition`).
-       * **Standard Path**:
-         * Identify `paper_type`.
-         * Extract `github_repo_urls`.
-         * Extract `datasets_catalog`: Look for accession codes (GSE, SRP, PRJNA) or direct URLs.
-         * **Repo Discovery Strategy**:
-           * **IF** a GitHub URL is found: Use it.
-           * **IF** a non-GitHub Project URL is found:
-             * Use `read_url_content` to scrape the page for a GitHub link.
-           * **IF** still no GitHub URL:
-             * Use `search_web` with query `"{Tool Name} github repository"`.
-         * Extract `abstract_summary`. **Mandatory**: If not explicitly found, you must fill this with "UNKNOWN" or a generated summary.
-    4. **Make `reproduce_decision`**:
-       * **IF** `paper_type` is "dataset" OR "tool_package" → Decision: **IES**.
-       * **IF** `paper_type` is "drylab_analysis" AND has code/data → Decision: **WDL**.
-       * **IF** `paper_type` is "wet_lab", "review", or has NO code/data → Decision: **REJECT**.
-       * *Constraint*: If IES type but no repo/install instructions are found → **REJECT**.
-       * *Note*: If the paper provides an existing Workflow file (WDL/CWL), treat it as a tool (**IES**).
-    5. **Output**:
-       * Create `{UUID}_p2w_card.json` in the user's folder.
-       * Write to log `{UUID}_p2w.log`.
-       * Set `status` to `stage_1_complete`.
-       * Report the decision to the user.
+1. **Ingest**: Read the provided PDF/Text/Web OR recognize a direct GitHub URL.
+2. **Generate UUID & Timestamp**: Generate a unique UUID (e.g., `550e8400-e29b...`) to serve as the `project_id`, and get the current time in `YYYYMMDD_HHMMSS` format to serve as the `Timestamp`. Initialization of the Card is required for ALL paths.
+3. **Analyze `paper_meta_info`**:
+   * **SHORTCUT**: If the user provided a **Direct GitHub URL**:
+     * Skip paper analysis.
+     * Fill `paper_type` = "tool_package" (default assumption).
+     * Fill `github_repo_urls` with the provided GitHub URL.
+     * Fill `abstract_summary` with "Direct GitHub Repo provided by user."
+     * **JUMP** directly to Stage 2 (`Resource Acquisition`).
+   * **Standard Path**:
+     * Identify `paper_type`.
+     * Extract `github_repo_urls`.
+     * Extract `datasets_catalog`: Look for accession codes (GSE, GEO, SRA, SRP, PRJNA) or direct URLs.
+       * **CRITICAL GEO TO SRA RESOLUTION**: Many papers (e.g., single-cell studies) only provide a GEO `GSE` number without specifying the raw sequencing `SRR` sample numbers in SRA. If only a GSE number is found and raw data is needed, you MUST execute `python /Users/lo/develop/bioos_navigen/skills/bioos_paper2workspace/scripts/get_srr_from_gse.py <GSE_ID>` to retrieve the associated SRR array (returned as JSON). Include both the GSE number and the resolved SRR numbers in the `datasets_catalog`.
+     * **Repo Discovery Strategy**:
+       * **IF** a GitHub URL is found: Use it.
+       * **IF** a non-GitHub Project URL is found: Use `read_url_content` to scrape the page for a GitHub link.
+       * **IF** still no GitHub URL: Use `search_web` with query `"{Tool Name} github repository"`.
+       * **IF** no Git repo can be found: Decision MUST be **REJECT**.
+     * Extract `abstract_summary`. **Mandatory**: If not explicitly found, you must fill this with "UNKNOWN" or a generated summary.
+4. **Make `reproduce_decision`**:
+   * *Bioinformatics Analysis Paradigms Context*:
+     * **Secondary Analysis (WDL)**: Standardized, batch-processing pipelines (e.g., FASTQ to VCF, read mapping with BWA/STAR, variant calling). This maps to **WDL** on Bio-OS.
+     * **Tertiary Analysis (IES)**: Interactive, personalized downstream analysis and visualization (e.g. custom R/Python scripting, Rmarkdown, Jupyter Notebooks). This maps to **IES** (Interactive Environment Settings) on Bio-OS.
+   * **IF** the paper is purely a "dataset" OR "tool_package" (or only provides Tertiary analysis scripts) → Decision: **IES**.
+   * **IF** the paper is purely a "drylab_analysis" focusing on Secondary batch processing → Decision: **WDL**.
+   * **IF** the paper contains both Secondary pipelining followed by Tertiary custom analysis → Decision: **WDL+IES**.
+   * **IF** `paper_type` is "wet_lab", "review", or has NO code/data → Decision: **REJECT**.
+   * *Constraint*: If IES type but no repo/install instructions are found → **REJECT**.
+   * *Note*: If the paper provides an existing Workflow file (WDL/CWL), treat it as a tool (**IES**).
+5. **Output**:
+   * Initialize `{Timestamp}_{UUID}_p2w_card.json` containing the schema above in the user's current directory.
+   * Set `status` to `stage_1_complete`.
+   * Report the decision to the user.
 
-    ##### 【Stage 2】Resource Acquisition & Deep Analysis
+##### 【Stage 2】Resource Acquisition & Deep Analysis
 
-    **Goal:** Download assets and map out the exact analytical steps.
+**Goal:** Download assets and map out the exact analytical steps.
 
-    1. **Download**:
-       * Clone the Git repository to the workspace.
-       * Download sample datasets (if small) or record their URLs.
-    2. **Analyze Codebase**:
-       * Read `README.md`, `requirements.txt`, `.yaml`, and main scripts.
-       * Identify environment dependencies (Python/R versions, packages).
-    3. **Populate `analytical_procedures` in Card**:
-       * **For IES**: Create a **single step** in the `steps` array. `command_template` must be empty (handled by IES startup). Fill `environment` details thoroughly.
-       * **For WDL**: Break down the pipeline into multiple `steps`. For each step, define the specific `command_template` (input/output variables) and its specific `environment`.
-    4. **Output**:
-       * Update `{UUID}_p2w_card.json`.
-       * Set `status` to `stage_2_complete`.
+1. **Download**:
+   * **For GitHub repositories**: Execute local `git clone` commands to download the codebase directly into the current directory.
+   * **For external datasets (GEO, SRA, Zenodo)**: Use relevant MCP tools or linux scripts to download external datasets straight to the Bio-OS designated bucket.
+2. **Analyze Codebase**:
+   * Read `README.md`, `requirements.txt`, `.yaml`, and main scripts from the cloned repo.
+   * Identify environment dependencies (Python/R versions, packages).
+   * Classify the analytical logical steps into Secondary Analysis (WDL) and Tertiary Analysis (IES) based on the definitions in Stage 1.
+3. **Populate `analytical_procedures` in Card**:
+   * **For IES (Tertiary Analysis)**: Initialize the `ies_application` object. Fill `app_name` and provide `environment` details thoroughly based on the analysis. (No `command_template` is needed).
+   * **For WDL (Secondary Analysis)**: Initialize the `wdl_workflow` object with `workflow_name` and `description`. For each distinct step, create an entry in the `tasks` array, defining the specific `command_template` (bash commands and variables) and its specific `environment`.
+4. **Output**:
+   * Update `{Timestamp}_{UUID}_p2w_card.json`.
+   * Set `status` to `stage_2_complete`.
 
-    ##### 【Stage 3】Development (Build & Code)
+##### 【Stage 3】Development (Build & Code)
 
-    **Goal:** Create the executable artifacts (Dockerfiles & WDL) using specified MCP tools.
+**Goal:** Create the executable artifacts (Dockerfiles & WDL) using specified MCP tools.
 
-    1. **Docker Construction (IES & WDL)**:
-       * Read `analytical_procedures.steps[].environment`.
-       * **Step A**: Generate Dockerfile content for each unique environment.
-       * **Step B**: Use `write_file` to save the Dockerfile to an absolute path.
-       * **Step C**: Use `build_docker_image` to build the image.
-       * **Step D**: Use `check_build_status` to verify success.
-       * **Build Retry Strategy**:
-           * If the build fails and you are attempting a **Source Build** (compiling from git/source):
-           * Retry up to **3 times** with fixes.
-           * **CRITICAL**: If it fails **3 times**, you **MUST** pause and consult the user. Propose switching to a **Binary Installation** (e.g., `pip install`, `mamba install bioconda::tool`) instead of compiling from source.
-       * *Constraint*: Strictly follow `Part 1.4: Dockerfile Generation Standard`.
-    2. **WDL Generation (If WDL)**:
-       * **Step A**: Generate the content for the `.wdl` file based on the steps in the Card.
-       * **Step B**: Use `write_file` to save it.
-       * **Step C**: Use `validate_wdl` to check syntax.
-       * *Constraint*: Strictly follow `Part 1.3: WDL Generation Standard`.
-    3. **Input JSON Preparation (If WDL)**:
-       * **Step A**: Use `generate_inputs_json_template_bioos` to create a template.
-       * **Step B**: Use `compose_input_json` to fill it with actual paths/data.
-    4. **Finalize and Persist State**:
-       * **CRITICAL**: Update `analytical_procedures.steps[].environment.docker_image` with the **actual built image URL** (e.g., `registry-vpc...:tag`).
-       * **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content.
-       * **Verification**: Read the file back to ensure the update persisted.
-       * Set `status` to `stage_3_complete`.
+1. **Docker Construction (IES & WDL)**:
+* Read `wdl_workflow.tasks[].environment` and `ies_application.environment`.
+* **Step A**: Generate Dockerfile content for each unique environment.
+* **Step B**: Use `write_file` to save the Dockerfile to an absolute path.
+* **Step C**: Use `build_docker_image` to build the image.
+* **Step D**: Use `check_build_status` to verify success.
+* **Build Retry Strategy**:
+    * If the build fails and you are attempting a **Source Build** (compiling from git/source):
+    * Retry up to **3 times** with fixes.
+    * **CRITICAL**: If it fails **3 times**, you **MUST** pause and consult the user. Propose switching to a **Binary Installation** (e.g., `pip install`, `mamba install bioconda::tool`) instead of compiling from source.
+* **CRITICAL DEVELOPMENT DIRECTIVE**: Ensure that the paper's GitHub repository is explicitly `git clone`d inside the generated Dockerfiles for all analysis environments.
+* *Constraint*: Strictly follow `01_shared_dockerfile_standard.md` rules internally.
 
-    ##### 【Stage 4】Bio-OS Deployment
+2. **WDL Generation (If WDL)**:
+* **Step A**: Generate the content for the `.wdl` file based on `wdl_workflow.tasks`.
+* **Step B**: Use `write_file` to save it.
+* **Step C**: Use `validate_wdl` to check syntax.
+* *Constraint*: Strictly follow WDL standard rules internally.
 
-    **Goal:** Launch the analysis on the cloud platform using specified MCP tools.
+3. **Input JSON Preparation (If WDL)**:
+* **Step A**: Use `generate_inputs_json_template_bioos` to create a template.
+* **Step B**: Use `compose_input_json` to fill it with actual paths/data.
+* **CRITICAL PAUSE**: If the generated `inputs.json` template asks for information, reference files, or database paths that you cannot confidently deduce from the context or the Workspace artifacts, you **MUST IMMEDIATELY ask the user** for these values. Do NOT guess or invent reference paths.
 
-    1. **Environment Setup**:
-       * Confirm/Create a Workspace in Bio-OS.
-    2. **Execution - Branch A (IES)**:
-       * **Step A**: Use `create_iesapp` using the Docker image built in Stage 3.
-       * **Step B**: Use `check_ies_status` in a polling loop until the status is "Running" or "Failed".
-       * **Step C**: If failed, use `get_ies_events` to diagnose.
-    3. **Execution - Branch B (WDL)**:
-       * **Step A**: Use `import_workflow` to upload the WDL and Inputs.
-       * **Step B**: Use `check_workflow_import_status` to confirm import success.
-       * **Step C**: Use `submit_workflow` (set `monitor: true`) to start the run.
-       * **Step D**: Use `check_workflow_run_status` to monitor progress.
-       * **Step E**: If failed, use `get_workflow_logs` to retrieve logs.
-    4. **Finalize and Persist State**:
-       * Summarize the entire run in the chat.
-       * **CRITICAL**: Update the `final_outputs` section in the card with `ies_app_id` (for IES) or `workflow_id` (for WDL) and the workspace name.
-       * **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the final outputs and logs.
-       * **Verification**: Read the file back to ensure the update persisted.
-       * Set `status` to `finished`.
+4. **Finalize and Persist State**:
+    - **CRITICAL**: Update `wdl_workflow.tasks[].environment.docker_image` and `ies_application.environment.docker_image` with the **actual built image URLs**.
+    - Save the local path to the WDL script in `wdl_workflow.wdl_script_path`.
+    - **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the updated content.
+    - Set `status` to `stage_3_complete`.
+
+##### 【Stage 4】Bio-OS Deployment
+
+**Goal:** Launch the analysis on the cloud platform using operator MCP tools.
+
+1. **Environment Setup**:
+* Confirm/Create a Workspace in Bio-OS.
+
+2. **Execution - Branch A (IES)**:
+* **Step A**: Use `create_iesapp` using the `ies_application.environment.docker_image` built in Stage 3.
+* **Step B**: Use `check_ies_status` in a polling loop until the status is "Running" or "Failed".
+* **Step C**: If failed, use `get_ies_events` to diagnose.
+
+3. **Execution - Branch B (WDL)**:
+* **Step A**: Use `import_workflow` to upload the WDL and Inputs.
+* **Step B**: Use `check_workflow_import_status` to confirm import success.
+* **Step C**: Use `submit_workflow` (set `monitor: false`) to start the run.
+* **Step D**: Use `check_workflow_run_status` to monitor progress.
+* **Step E**: If failed, use `get_workflow_logs` to retrieve logs.
+
+4. **Finalize and Persist State**:
+    - Wait for all executions to finish.
+    - **CRITICAL**: Update `ies_application.ies_app_id`, `ies_application.workspace_name`, `wdl_workflow.registered_workflow_name`, `wdl_workflow.submission_id`, and `wdl_workflow.output_s3_urls` in the Card.
+    - **CRITICAL**: You **MUST** use `write_file` to overwrite `{Timestamp}_{UUID}_p2w_card.json` with the final outputs and logs.
+    - Set `status` to `stage_4_complete`.
+
+##### 【Stage 5】Summarization & Dashboard Upload
+
+**Goal:** Provide a comprehensive summary of the entire reproduction process and upload it to the platform.
+
+1. **Summarize Work**: Locally write a Markdown file named `__dashboard__.md` detailing the entire reproduction attempt, including metadata, decision logic, pipeline URLs, exact analysis commands, Docker image builds, and final execution IDs. This file acts as the project's permanent record.
+2. **Upload Dashboard**: Use the `upload_dashboard_file` MCP tool to push the generated `__dashboard__.md` up to the designated Bio-OS workspace to serve as its overview page.
+3. **Conclude**: Inform the user the reproduction session is successfully concluded. Update `{Timestamp}_{UUID}_p2w_card.json` and set `status` to `finished`.
 
 ### Mode 3: Talk2Workspace
 - **Description**: Index and understand the contents of an existing Bio-OS workspace for Q&A and operations.
@@ -875,7 +895,13 @@ Ensure you have the necessary context (the indexed workspace) and gather informa
     - Your first step is to confirm you have an active, indexed workspace. If you have just finished a `Talk2Workspace` session, confirm with the user: "Should we proceed to write a paper based on the `<workspace_name>` workspace?"
     - If starting fresh, you must first guide the user through the indexing steps from `Talk2Workspace Mode`. "Before we can write the paper, I need to understand the workspace. Please tell me the name of the workspace you've completed your analysis in." Then, perform the `exportbioosworkspace` and indexing flow.
 
-2.  **Gather Publication Requirements**:
+2.  **Context Enrichment (File Fetching)**:
+    *   After confirming the workspace layout, you must use the `list_files_from_workspace` MCP tool to retrieve the file hierarchy within the workspace's bounded bucket.
+    *   Review the returned list and compile a target list of **text-based context files** that you think will help you understand the analysis performed in the workspace. You MUST target summaries (e.g., `__dashboard__.md`), logs, config files, or small CSV reports.
+    *   **CRITICAL CONSTRAINT**: Do NOT target large binary omics files (e.g., `.bam`, `.fastq.gz`, `.vcf.gz`, `.h5ad`). Do NOT target exceptionally large files.
+    *   Use the `download_files_from_workspace` MCP tool to pull your selected target list from the cloud directly into the local Agent environment. Read these downloaded files to drastically improve your comprehension of the analysis performed in the workspace.
+
+3.  **Gather Publication Requirements**:
     - Ask the user for the target journal. "What is the target journal for your manuscript? (e.g., Nature, Cell, Bioinformatics)"
     - Ask for any specific formatting guidelines or templates. "If you have a link to the journal's 'Instructions for Authors' or a template, please provide it. This will help me tailor the structure and content."
 
