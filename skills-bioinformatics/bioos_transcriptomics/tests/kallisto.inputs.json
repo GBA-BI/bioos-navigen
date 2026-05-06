@@ -1,0 +1,5 @@
+{
+    "Tool_Kallisto.input_read1": "drs://imc-drs.miracle.ac.cn/ed4fcg55lvfb7gppq78eg",
+    "Tool_Kallisto.input_read2": "drs://imc-drs.miracle.ac.cn/ed4fcg55lvfb7gppq78f0",
+    "Tool_Kallisto.kallisto_db_fa": "drs://imc-drs.miracle.ac.cn/ed4fcg55lvfb7gppq78fg"
+}

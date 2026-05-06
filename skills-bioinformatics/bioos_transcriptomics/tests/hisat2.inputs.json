@@ -1,0 +1,6 @@
+{
+    "Tool_Hisat2.cpu": 8,
+    "Tool_Hisat2.fasta": "drs://imc-drs.miracle.ac.cn/ed4fceqkillb3o00gtsm0",
+    "Tool_Hisat2.fq1": "drs://imc-drs.miracle.ac.cn/ed4fceqkillb3o00gtsmg",
+    "Tool_Hisat2.fq2": "drs://imc-drs.miracle.ac.cn/ed4fceqkillb3o00gtsn0"
+}

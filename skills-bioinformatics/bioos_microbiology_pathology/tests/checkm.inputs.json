@@ -1,0 +1,5 @@
+{
+    "Tool_Checkm.extension": "fasta",
+    "Tool_Checkm.inputfasta": "drs://imc-drs.miracle.ac.cn/ed3rq7ddo4spjhk11l80g",
+    "Tool_Checkm.thread": "20"
+}

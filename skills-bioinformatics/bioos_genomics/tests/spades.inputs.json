@@ -1,0 +1,8 @@
+{
+    "spades_workflow.fq1": "drs://imc-drs.miracle.ac.cn/ed3rq6e2tjvcf7ennons0",
+    "spades_workflow.fq2": "drs://imc-drs.miracle.ac.cn/ed3rq6e2tjvcf7ennonp0",
+    "spades_workflow.kmer": "21,33,55",
+    "spades_workflow.outFolder": "spades_result",
+    "spades_workflow.prefix": "sample01",
+    "spades_workflow.threads": 8
+}

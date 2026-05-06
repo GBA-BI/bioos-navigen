@@ -1,0 +1,7 @@
+{
+    "Tool_BWA_MEM.fq1": "drs://imc-drs.miracle.ac.cn/ed3rl852tjvcf7ennncp0",
+    "Tool_BWA_MEM.fq2": "drs://imc-drs.miracle.ac.cn/ed3rl852tjvcf7ennncpg",
+    "Tool_BWA_MEM.other_para": "-k 19 -w 100",
+    "Tool_BWA_MEM.ref": "drs://imc-drs.miracle.ac.cn/ed3rl852tjvcf7ennncq0",
+    "Tool_BWA_MEM.threads": "8"
+}

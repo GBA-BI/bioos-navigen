@@ -1,0 +1,11 @@
+{
+    "Tool_StringTie.A": "gene",
+    "Tool_StringTie.B": true,
+    "Tool_StringTie.C": "cov_refs.gtf",
+    "Tool_StringTie.M": "0.95",
+    "Tool_StringTie.bam": "drs://imc-drs.miracle.ac.cn/ed3vhno7e7hu3grr2gvs0",
+    "Tool_StringTie.f": "0.01",
+    "Tool_StringTie.gtf": "drs://imc-drs.miracle.ac.cn/ed3vhno7e7hu3grr2gvsg",
+    "Tool_StringTie.label": "STRG",
+    "Tool_StringTie.m": "200"
+}

@@ -1,0 +1,7 @@
+{
+    "Tool_AbundanceBin.abundancebin.output_dir": "iwandresultfiles",
+    "Tool_AbundanceBin.bin_num": 2,
+    "Tool_AbundanceBin.exclude_max": 200,
+    "Tool_AbundanceBin.input_file": "drs://imc-drs.miracle.ac.cn/ed3rletatjvcf7ennnf40",
+    "Tool_AbundanceBin.recursive_classification": false
+}

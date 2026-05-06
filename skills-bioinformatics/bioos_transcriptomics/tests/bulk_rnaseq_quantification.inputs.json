@@ -1,0 +1,21 @@
+{
+  "bulk_rnaseq_quantification.fastq1": "drs://imc-drs.miracle.ac.cn/ecvgclc7bp9hpgvs8rh8g",
+  "bulk_rnaseq_quantification.fastq2": "drs://imc-drs.miracle.ac.cn/ecvgclc7bp9hpgvs8rh90",
+  "bulk_rnaseq_quantification.genes_gtf": "drs://imc-drs.miracle.ac.cn/ecvgclc7bp9hpgvs8rh5g",
+  "bulk_rnaseq_quantification.paired_end": "true",
+  "bulk_rnaseq_quantification.sample_id": "HRR231995",
+  "bulk_rnaseq_quantification.rnaseqc2.disk_space": 75,
+  "bulk_rnaseq_quantification.rnaseqc2.memory": 12,
+  "bulk_rnaseq_quantification.rnaseqc2.num_preempt": true,
+  "bulk_rnaseq_quantification.rnaseqc2.num_threads": 4,
+  "bulk_rnaseq_quantification.rsem.disk_space": 400,
+  "bulk_rnaseq_quantification.rsem.memory": 64,
+  "bulk_rnaseq_quantification.rsem.num_preempt": true,
+  "bulk_rnaseq_quantification.rsem.num_threads": 8,
+  "bulk_rnaseq_quantification.rsem_reference": "drs://imc-drs.miracle.ac.cn/ecvgclc7bp9hpgvs8rhbg",
+  "bulk_rnaseq_quantification.star.disk_space": 500,
+  "bulk_rnaseq_quantification.star.memory": 64,
+  "bulk_rnaseq_quantification.star.num_preempt": true,
+  "bulk_rnaseq_quantification.star.num_threads": 16,
+  "bulk_rnaseq_quantification.star_index": "drs://imc-drs.miracle.ac.cn/ecvgclc7bp9hpgvs8rh60"
+}

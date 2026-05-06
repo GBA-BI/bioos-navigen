@@ -1,0 +1,5 @@
+{
+    "Tool_FragGeneScan.complete": 1,
+    "Tool_FragGeneScan.input_fasta": "drs://imc-drs.miracle.ac.cn/ed3rn5tatjvcf7ennnrog",
+    "Tool_FragGeneScan.train_model": "illumina_10"
+}

@@ -1,0 +1,7 @@
+{
+    "Tool_SSPACE.expected_inserted_size": "150",
+    "Tool_SSPACE.fa": "drs://imc-drs.miracle.ac.cn/ed3rq1fatjvcf7ennomag",
+    "Tool_SSPACE.fq1": "drs://imc-drs.miracle.ac.cn/ed3rq1fatjvcf7ennomb0",
+    "Tool_SSPACE.fq2": "drs://imc-drs.miracle.ac.cn/ed3rq1fatjvcf7ennom7g",
+    "Tool_SSPACE.minimum_allowed_error": "0.75"
+}

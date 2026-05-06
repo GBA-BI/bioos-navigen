@@ -1,0 +1,12 @@
+{
+  "pangolin_sars_cov2_lineage_assignment.query_fasta": "drs://imc-drs.miracle.ac.cn/ed7istoa1njdk06fbn0bg",
+  "pangolin_sars_cov2_lineage_assignment.output_prefix": "pangolin_test_run",
+  "pangolin_sars_cov2_lineage_assignment.analysis_mode": "fast",
+  "pangolin_sars_cov2_lineage_assignment.skip_scorpio": true,
+  "pangolin_sars_cov2_lineage_assignment.max_ambig": 0.3,
+  "pangolin_sars_cov2_lineage_assignment.min_length": 25000,
+  "pangolin_sars_cov2_lineage_assignment.docker_image": "registry-vpc.miracle.ac.cn/auto-build/pangolin-sarscov2:20260312-v1",
+  "pangolin_sars_cov2_lineage_assignment.memory_gb": 16,
+  "pangolin_sars_cov2_lineage_assignment.disk_space_gb": 100,
+  "pangolin_sars_cov2_lineage_assignment.cpu_threads": 4
+}

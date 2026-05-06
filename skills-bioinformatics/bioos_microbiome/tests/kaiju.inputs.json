@@ -1,0 +1,12 @@
+{
+    "Tool_Kaiju.dmp": "drs://imc-drs.miracle.ac.cn/ed3vhkmliveb89860s3gg",
+    "Tool_Kaiju.fmi": "drs://imc-drs.miracle.ac.cn/ed3vhkmliveb89860s3h0",
+    "Tool_Kaiju.minimum_evalue": "1e-5",
+    "Tool_Kaiju.minimum_match_length": "11",
+    "Tool_Kaiju.minimum_match_score_in_greedy": "65",
+    "Tool_Kaiju.mode": "greedy",
+    "Tool_Kaiju.number_of_greedy_mismatches": "5",
+    "Tool_Kaiju.protein_seq": "p",
+    "Tool_Kaiju.seq1": "drs://imc-drs.miracle.ac.cn/ed3vhkmliveb89860s3fg",
+    "Tool_Kaiju.threads": "8"
+}

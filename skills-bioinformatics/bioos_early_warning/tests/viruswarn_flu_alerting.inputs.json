@@ -1,0 +1,6 @@
+{
+  "viruswarn_flu_alerting.cpu_threads": 4,
+  "viruswarn_flu_alerting.disk_space_gb": 50,
+  "viruswarn_flu_alerting.docker_image": "registry-vpc.miracle.ac.cn/auto-build/viruswarn-repro:v0.2",
+  "viruswarn_flu_alerting.memory_gb": 8
+}

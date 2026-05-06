@@ -1,0 +1,7 @@
+{
+    "Tool_oases.kmer": "31",
+    "Tool_oases.reads_format": "-fastq",
+    "Tool_oases.reads_type": "-shortPaired",
+    "Tool_oases.seq1": "drs://imc-drs.miracle.ac.cn/ed3vhec5iveb89860s0pg",
+    "Tool_oases.seq2": "drs://imc-drs.miracle.ac.cn/ed3vhec5iveb89860s0o0"
+}

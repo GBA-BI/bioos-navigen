@@ -1,0 +1,6 @@
+{
+    "Tool_Glimmer.args_gene_len": 110,
+    "Tool_Glimmer.args_max_olap": 10,
+    "Tool_Glimmer.args_threads": 8,
+    "Tool_Glimmer.input_fasta": "drs://imc-drs.miracle.ac.cn/ed3rmgsto4spjhk11jg0g"
+}

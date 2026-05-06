@@ -1,0 +1,7 @@
+{
+    "Tool_DFAST02.complete": "f",
+    "Tool_DFAST02.cpu": "10",
+    "Tool_DFAST02.fasta": "drs://imc-drs.miracle.ac.cn/ed3rpb1to4spjhk11krg0",
+    "Tool_DFAST02.sort_sequence": "t",
+    "Tool_DFAST02.use_tags": "t"
+}

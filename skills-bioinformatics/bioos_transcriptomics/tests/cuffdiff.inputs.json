@@ -1,0 +1,12 @@
+{
+    "Tool_Cuffdiff.FDR": "0.05",
+    "Tool_Cuffdiff.fasta": "drs://imc-drs.miracle.ac.cn/ed3oq1gto4spjhk10kjs0",
+    "Tool_Cuffdiff.gtf": "drs://imc-drs.miracle.ac.cn/ed3oq1gto4spjhk10kk00",
+    "Tool_Cuffdiff.labels": "control,treatment",
+    "Tool_Cuffdiff.library_type": "fr-unstranded",
+    "Tool_Cuffdiff.multi_read_correct": true,
+    "Tool_Cuffdiff.sam_1": "drs://imc-drs.miracle.ac.cn/ed3oq1gto4spjhk10kjo0",
+    "Tool_Cuffdiff.sam_2": "drs://imc-drs.miracle.ac.cn/ed3oq1gto4spjhk10kk3g",
+    "Tool_Cuffdiff.threads": "8",
+    "Tool_Cuffdiff.time_series": false
+}

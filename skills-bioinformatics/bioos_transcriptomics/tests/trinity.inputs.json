@@ -1,0 +1,8 @@
+{
+    "Tool_Trinity.cpu": 40,
+    "Tool_Trinity.fq1": "drs://imc-drs.miracle.ac.cn/ed3riu6qtjvcf7ennmqj0",
+    "Tool_Trinity.fq2": "drs://imc-drs.miracle.ac.cn/ed3riu6qtjvcf7ennmqjg",
+    "Tool_Trinity.jaccard_clip": false,
+    "Tool_Trinity.max_memory": "50G",
+    "Tool_Trinity.seqtype": "fq"
+}
