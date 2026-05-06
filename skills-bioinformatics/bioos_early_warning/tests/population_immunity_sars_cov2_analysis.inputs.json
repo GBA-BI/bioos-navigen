@@ -1,0 +1,3 @@
+{
+  "population_immunity_sars_cov2_analysis.docker_image": "registry-vpc.miracle.ac.cn/gznl/population-immunity-wf:latest"
+}

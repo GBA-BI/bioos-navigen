@@ -1,0 +1,5 @@
+{
+    "Tool_Blat.db_fasta": "drs://imc-drs.miracle.ac.cn/ed3rrioqtjvcf7ennp1hg",
+    "Tool_Blat.prefix": "blat_output",
+    "Tool_Blat.query_fasta": "drs://imc-drs.miracle.ac.cn/ed3rrioqtjvcf7ennp1gg"
+}

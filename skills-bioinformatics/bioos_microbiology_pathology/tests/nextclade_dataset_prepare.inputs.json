@@ -1,0 +1,8 @@
+{
+  "nextclade_dataset_prepare.dataset_name": "nextstrain/sars-cov-2/wuhan-hu-1/orfs",
+  "nextclade_dataset_prepare.output_prefix": "nextclade_dataset",
+  "nextclade_dataset_prepare.cpu_threads": 2,
+  "nextclade_dataset_prepare.disk_space_gb": 50,
+  "nextclade_dataset_prepare.docker_image": "registry-vpc.miracle.ac.cn/auto-build/nextclade-dataset-prep:20260313-v1",
+  "nextclade_dataset_prepare.memory_gb": 8
+}

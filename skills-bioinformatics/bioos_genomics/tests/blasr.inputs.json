@@ -1,0 +1,11 @@
+{
+    "Tool_BLASR.clipping": "soft",
+    "Tool_BLASR.input_query": "drs://imc-drs.miracle.ac.cn/ed3rp60itjvcf7ennoe70",
+    "Tool_BLASR.input_ref": "drs://imc-drs.miracle.ac.cn/ed3rp60itjvcf7ennoe7g",
+    "Tool_BLASR.maxscore": "500",
+    "Tool_BLASR.minmatch": "10",
+    "Tool_BLASR.minreads_len": "50",
+    "Tool_BLASR.nproc": "1",
+    "Tool_BLASR.outformat": "-m 5",
+    "Tool_BLASR.subreads_len": "50"
+}

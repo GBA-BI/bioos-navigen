@@ -1,0 +1,9 @@
+{
+    "Tool_DIAMOND.args_cand": "blastx",
+    "Tool_DIAMOND.args_outfmt": 6,
+    "Tool_DIAMOND.args_threads": 8,
+    "Tool_DIAMOND.db_fasta": "drs://imc-drs.miracle.ac.cn/ed3vhbfliveb89860rv6g",
+    "Tool_DIAMOND.evalue": "1e-5",
+    "Tool_DIAMOND.prefix": "sample_prefix",
+    "Tool_DIAMOND.query_fasta": "drs://imc-drs.miracle.ac.cn/ed3vhbfliveb89860rv70"
+}

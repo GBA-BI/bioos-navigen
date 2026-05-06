@@ -1,0 +1,5 @@
+{
+    "Tool_Prokka.input_fasta": "drs://imc-drs.miracle.ac.cn/ed3rn7glo4spjhk11jsig",
+    "Tool_Prokka.kingdom": "Viruses",
+    "Tool_Prokka.prefix": "sample_name"
+}

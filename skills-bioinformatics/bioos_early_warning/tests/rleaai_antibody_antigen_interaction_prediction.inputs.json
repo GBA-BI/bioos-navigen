@@ -1,0 +1,7 @@
+{
+  "rleaai_antibody_antigen_interaction_prediction.cpu_threads": 4,
+  "rleaai_antibody_antigen_interaction_prediction.disk_space_gb": 50,
+  "rleaai_antibody_antigen_interaction_prediction.docker_image": "registry-vpc.miracle.ac.cn/auto-build/rleaai:v1.0",
+  "rleaai_antibody_antigen_interaction_prediction.memory_gb": 16,
+  "rleaai_antibody_antigen_interaction_prediction.virus": "SARS-CoV-2"
+}

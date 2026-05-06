@@ -1,0 +1,14 @@
+{
+  "nextclade_pathogen_genome_analysis.query_fasta": "drs://imc-drs.miracle.ac.cn/ed7it0ibrqu01uble9fhg",
+  "nextclade_pathogen_genome_analysis.reference_fasta": "drs://imc-drs.miracle.ac.cn/ed7it0ibrqu01uble9fjg",
+  "nextclade_pathogen_genome_analysis.tree_json": "drs://imc-drs.miracle.ac.cn/ed7it0ibrqu01uble9fj0",
+  "nextclade_pathogen_genome_analysis.pathogen_json": "drs://imc-drs.miracle.ac.cn/ed7it0ibrqu01uble9ff0",
+  "nextclade_pathogen_genome_analysis.genome_annotation_gff3": "drs://imc-drs.miracle.ac.cn/ed7it0ibrqu01uble9fe0",
+  "nextclade_pathogen_genome_analysis.include_reference": false,
+  "nextclade_pathogen_genome_analysis.output_prefix": "nextclade_smoketest",
+  "nextclade_pathogen_genome_analysis.preserve_order": true,
+  "nextclade_pathogen_genome_analysis.cpu_threads": 4,
+  "nextclade_pathogen_genome_analysis.disk_space_gb": 100,
+  "nextclade_pathogen_genome_analysis.docker_image": "registry-vpc.miracle.ac.cn/auto-build/nextclade-dataset-prep:20260313-v1",
+  "nextclade_pathogen_genome_analysis.memory_gb": 16
+}

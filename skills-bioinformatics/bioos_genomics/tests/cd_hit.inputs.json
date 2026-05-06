@@ -1,0 +1,6 @@
+{
+    "Tool_CD_HIT.fasta": "drs://imc-drs.miracle.ac.cn/ed3rl1mto4spjhk11iq80",
+    "Tool_CD_HIT.identity": 0.9,
+    "Tool_CD_HIT.threads": 8,
+    "Tool_CD_HIT.word_length": 5
+}

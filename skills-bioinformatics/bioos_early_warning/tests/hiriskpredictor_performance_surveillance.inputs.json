@@ -1,0 +1,15 @@
+{
+  "hiriskpredictor_performance_surveillance.alias_file": "drs://imc-drs.miracle.ac.cn/ed7iujsq1njdk06fbn1f0",
+  "hiriskpredictor_performance_surveillance.docker_image": "registry-vpc.miracle.ac.cn/auto-build/hiriskpredictor-wf:v0.3",
+  "hiriskpredictor_performance_surveillance.end_date": "2021-01-15",
+  "hiriskpredictor_performance_surveillance.interval_days": 7,
+  "hiriskpredictor_performance_surveillance.new_system": false,
+  "hiriskpredictor_performance_surveillance.nprocesses": 2,
+  "hiriskpredictor_performance_surveillance.nrows": 250000,
+  "hiriskpredictor_performance_surveillance.output_dir": "out",
+  "hiriskpredictor_performance_surveillance.performance_start_date": "2020-12-25",
+  "hiriskpredictor_performance_surveillance.samples": "drs://imc-drs.miracle.ac.cn/ed7iujsq1njdk06fbn1n0",
+  "hiriskpredictor_performance_surveillance.selected_feature_ml_file": "drs://imc-drs.miracle.ac.cn/ed7iujsq1njdk06fbn1l0",
+  "hiriskpredictor_performance_surveillance.start_date": "2020-11-27",
+  "hiriskpredictor_performance_surveillance.who_labels": "drs://imc-drs.miracle.ac.cn/ed7iujsq1njdk06fbn1ig"
+}

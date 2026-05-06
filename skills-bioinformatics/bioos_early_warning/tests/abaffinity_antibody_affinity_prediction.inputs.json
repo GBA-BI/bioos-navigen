@@ -1,0 +1,6 @@
+{
+  "abaffinity_antibody_affinity_prediction.abaffinity_predict.docker_image": "registry-vpc.miracle.ac.cn/auto-build/abaffinity-p2w:20260313-v1",
+  "abaffinity_antibody_affinity_prediction.antibody_input_csv": "drs://imc-drs.miracle.ac.cn/ed7iuesq1njdk06fbn0m0",
+  "abaffinity_antibody_affinity_prediction.batch_size": 1,
+  "abaffinity_antibody_affinity_prediction.output_prefix": "abaffinity_demo_v1"
+}

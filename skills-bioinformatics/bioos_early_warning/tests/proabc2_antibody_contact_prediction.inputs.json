@@ -1,0 +1,6 @@
+{
+  "proabc2_antibody_contact_prediction.heavy_fasta": "drs://imc-drs.miracle.ac.cn/ed7it5arrqu01uble9icg",
+  "proabc2_antibody_contact_prediction.light_fasta": "drs://imc-drs.miracle.ac.cn/ed7it5arrqu01uble9id0",
+  "proabc2_antibody_contact_prediction.output_prefix": "proabc2_demo",
+  "proabc2_antibody_contact_prediction.proabc2_predict.docker_image": "registry-vpc.miracle.ac.cn/gznl/proabc-2:latest"
+}

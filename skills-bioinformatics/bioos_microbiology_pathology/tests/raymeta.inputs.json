@@ -1,0 +1,6 @@
+{
+    "Tool_RayMeta.cpu": 16,
+    "Tool_RayMeta.fq1": "drs://imc-drs.miracle.ac.cn/ed4fa555lvfb7gppq5pag",
+    "Tool_RayMeta.fq2": "drs://imc-drs.miracle.ac.cn/ed4fa555lvfb7gppq5ovg",
+    "Tool_RayMeta.kmer": 31
+}

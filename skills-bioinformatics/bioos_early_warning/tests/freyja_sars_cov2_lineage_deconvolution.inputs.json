@@ -1,0 +1,14 @@
+{
+  "freyja_sars_cov2_lineage_deconvolution.bam": "drs://imc-drs.miracle.ac.cn/ed7it3errqu01uble9h9g",
+  "freyja_sars_cov2_lineage_deconvolution.bam_index": "drs://imc-drs.miracle.ac.cn/ed7it3errqu01uble9h70",
+  "freyja_sars_cov2_lineage_deconvolution.confirmed_only": true,
+  "freyja_sars_cov2_lineage_deconvolution.coverage_cutoff": 10,
+  "freyja_sars_cov2_lineage_deconvolution.eps": 0.001,
+  "freyja_sars_cov2_lineage_deconvolution.min_base_quality": 20,
+  "freyja_sars_cov2_lineage_deconvolution.pathogen": "SARS-CoV-2",
+  "freyja_sars_cov2_lineage_deconvolution.reference_fasta": "drs://imc-drs.miracle.ac.cn/ed7it3errqu01uble9h7g",
+  "freyja_sars_cov2_lineage_deconvolution.reference_name": "",
+  "freyja_sars_cov2_lineage_deconvolution.sample_name": "freyja_test_bam",
+  "freyja_sars_cov2_lineage_deconvolution.top_n": 5,
+  "freyja_sars_cov2_lineage_deconvolution.variant_threshold": 0
+}

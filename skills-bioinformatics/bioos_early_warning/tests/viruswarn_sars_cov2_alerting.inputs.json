@@ -1,0 +1,6 @@
+{
+  "viruswarn_sars_cov2_alerting.cpu_threads": 4,
+  "viruswarn_sars_cov2_alerting.disk_space_gb": 50,
+  "viruswarn_sars_cov2_alerting.docker_image": "registry-vpc.miracle.ac.cn/auto-build/viruswarn-repro:v0.2",
+  "viruswarn_sars_cov2_alerting.memory_gb": 8
+}

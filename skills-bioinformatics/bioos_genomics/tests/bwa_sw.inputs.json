@@ -1,0 +1,6 @@
+{
+    "Tool_BWA_SW.fq1": "drs://imc-drs.miracle.ac.cn/ed3rla9to4spjhk11iv9g",
+    "Tool_BWA_SW.fq2": "drs://imc-drs.miracle.ac.cn/ed3rla9to4spjhk11iv80",
+    "Tool_BWA_SW.ref": "drs://imc-drs.miracle.ac.cn/ed3rla9to4spjhk11iv8g",
+    "Tool_BWA_SW.threads": "8"
+}

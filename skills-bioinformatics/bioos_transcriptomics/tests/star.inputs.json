@@ -1,0 +1,8 @@
+{
+    "Tool_STAR.fq1": "drs://imc-drs.miracle.ac.cn/ed3rl6o2tjvcf7ennnc8g",
+    "Tool_STAR.fq2": "drs://imc-drs.miracle.ac.cn/ed3rl6o2tjvcf7ennnc9g",
+    "Tool_STAR.gtf": "drs://imc-drs.miracle.ac.cn/ed3rl6o2tjvcf7ennnc90",
+    "Tool_STAR.outSAMtype": "BAM SortedByCoordinate",
+    "Tool_STAR.ref": "drs://imc-drs.miracle.ac.cn/ed3rl6o2tjvcf7ennnc60",
+    "Tool_STAR.sjdbOverhang": "75"
+}

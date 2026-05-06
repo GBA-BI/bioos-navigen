@@ -1,0 +1,7 @@
+{
+    "Tool_Ballgown.Pattern": "sample",
+    "Tool_Ballgown.covariate": "condition",
+    "Tool_Ballgown.input_ballgown": "drs://imc-drs.miracle.ac.cn/ed3rld8to4spjhk11j13g",
+    "Tool_Ballgown.pheno_data": "drs://imc-drs.miracle.ac.cn/ed3rld8to4spjhk11j140",
+    "Tool_Ballgown.qvalue": "0.2"
+}
