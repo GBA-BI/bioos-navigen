@@ -13,7 +13,7 @@ This skill drafts a manuscript from analysis results already stored in a Bio-OS 
 ## Execution Workflow
 
 ### Stage 1: Prerequisite setup
-1. Explicitly declare that `bioos_workspace_parser` is required, then use it to obtain a clean overview of the target workspace.
+1. Explicitly declare that `bioos_workspace_parser` skill is required, then use it to obtain a clean overview of the target workspace.
 2. Enrich the context with selected workspace files:
    - List files with:
      `<bioos_launch> file list --workspace-name <workspace_name> --recursive --output json --pretty`

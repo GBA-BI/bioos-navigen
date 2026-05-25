@@ -253,7 +253,7 @@ You must follow these stages sequentially. Do not proceed to the next stage unti
      * Identify `paper_type`.
      * Extract `github_repo_urls`.
      * Extract `datasets_catalog`: Look for accession codes (GSE, GEO, SRA, SRP, PRJNA) or direct URLs.
-       * **CRITICAL GEO TO SRA RESOLUTION**: Many papers (e.g., single-cell studies) only provide a GEO `GSE` number without specifying the raw sequencing `SRR` sample numbers in SRA. If only a GSE number is found and raw data is needed, you MUST execute `python skills/bioos_paper2workspace/scripts/get_srr_from_gse.py <GSE_ID>` to retrieve the associated SRR array (returned as JSON). Include both the GSE number and the resolved SRR numbers in the `datasets_catalog`.
+       * **CRITICAL GEO TO SRA RESOLUTION**: Many papers (e.g., single-cell studies) only provide a GEO `GSE` number without specifying the raw sequencing `SRR` sample numbers in SRA. If only a GSE number is found and raw data is needed, you MUST execute `python scripts/get_srr_from_gse.py <GSE_ID>` to retrieve the associated SRR array (returned as JSON). Include both the GSE number and the resolved SRR numbers in the `datasets_catalog`.
      * **Repo Discovery Strategy**:
        * **IF** a GitHub URL is found: Use it.
        * **IF** a non-GitHub Project URL is found: Use `read_url_content` to scrape the page for a GitHub link.

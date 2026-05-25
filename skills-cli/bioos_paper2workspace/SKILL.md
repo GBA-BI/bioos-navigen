@@ -1,6 +1,6 @@
 ---
 name: bioos_paper2workspace
-description: Parse and orchestrate the reproduction of a computational biology paper on Bio-OS, using CLI-based Docker, workflow, file, and workspace operations. Trigger this skill when the user provides a paper or asks to reproduce a paper on Bio-OS.
+description: Parse and orchestrate the reproduction of a computational biology paper on Bio-OS platform. Trigger this skill when the user provides a paper or asks to reproduce a paper on Bio-OS.
 ---
 
 # Bio-OS Paper2Workspace
@@ -287,7 +287,7 @@ Goal: build the executable artifacts.
 ### Stage 4: Bio-OS deployment
 Goal: launch the artifacts on Bio-OS.
 
-1. Explicitly declare that `bioos_platform_operator` is required and follow it.
+1. Explicitly declare that `bioos_platform_operator` skill is required and follow it.
 2. Import and submit the WDL workflow if present, and create the IES application if present.
 3. Persist the resulting execution identifiers.
    - `wdl_workflow.registered_workflow_name`
