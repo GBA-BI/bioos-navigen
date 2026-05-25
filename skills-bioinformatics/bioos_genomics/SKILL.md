@@ -1,6 +1,12 @@
 ---
 name: bioos_genomics
-description: Route genomics sequence alignment, genome assembly, assembly QC, structural variant, sequence clustering, and repeat-analysis Bio-OS workflows. Use this skill for BWA/BLASR/BLAT alignment, CAP3/SPAdes assembly, SSPACE/OPERA scaffolding, QUAST/REAPR assessment, CD-HIT clustering, MUMmer comparison, PRISM insert-size analysis, XSTREAM repeat analysis, and LUMPY-style SV workflows that should run with Bio-OS WDLs.
+description: Route genomics sequence alignment, genome assembly, assembly QC,
+  structural variant, sequence clustering, and repeat-analysis Bio-OS workflows.
+  Use this skill for BWA/BLASR/BLAT alignment, CAP3/SPAdes assembly,
+  SSPACE/OPERA scaffolding, QUAST/REAPR assessment, CD-HIT clustering, MUMmer
+  comparison, PRISM insert-size analysis, XSTREAM repeat analysis, and
+  LUMPY-style SV workflows that should run with Bio-OS WDLs.
+disable: true
 ---
 
 # Bio-OS Genomics
@@ -10,13 +16,14 @@ This is the business-layer skill for genomics sequence-analysis workflows.
 
 - Use this skill when the user wants sequence alignment, genome assembly/scaffolding, assembly QC, insert-size analysis, sequence clustering, genome comparison, repeat analysis, or structural variant detection.
 - Keep RNA expression, single-cell counting, Iso-Seq, and small RNA workflows in `bioos_transcriptomics`.
-- Before changing any image reference, consult `../bioos_docker_registry_catalog/SKILL.md`.
+- Before changing any image reference, consult the `bioos_docker_registry_catalog` skill.
 
 ## Operating Rules
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Use the workflow names below as the user-facing routing units; internal `task` blocks are implementation details.
-- Prefer the provided `tests/*.inputs.json` as starting templates, then replace workspace-specific file paths for the actual run.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
+- Prefer the provided `tests/*.inputs.json` as starting templates, then use the `bioos_platform_operator` skill when replacing file inputs.
 
 ## Included Workflows
 
@@ -250,5 +257,5 @@ XSTREAM rapidly identifies and models basic tandem repeat (TR) structures in pro
 <!-- IMPORTED_ATOMIC_TOOLS_END -->
 
 ## Execution Handoff
-- Start from the paired `tests/*.inputs.json` template for the selected workflow and replace placeholder paths with the current workspace resources.
-- If the user needs a new image or major WDL rewrite, hand off to the `skills-cli` builder stack instead of modifying this business skill first.
+- Start from the paired `tests/*.inputs.json` template for the selected workflow and use the `bioos_platform_operator` skill when replacing placeholder file inputs.
+- If the user needs a new image, hand off to the `bioos_docker_builder` skill; for major WDL rewrites, hand off to the `bioos_wdl_scripter` skill instead of modifying this business skill first.

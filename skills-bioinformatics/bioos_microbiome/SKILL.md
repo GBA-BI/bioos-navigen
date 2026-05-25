@@ -1,11 +1,14 @@
 ---
 name: bioos_microbiome
 description: >
-  Route microbiome biomarker discovery, taxon-level group comparison, taxonomic profiling,
-  community abundance processing, functional potential prediction, and LEfSe-style
-  effect-size analysis workflows on Bio-OS. Trigger when user mentions LEfSe, microbiome
-  differential analysis, microbial biomarker, group comparison, taxonomic profiling, abundance
-  binning, PICRUSt, Kaiju, DUDes, StrainEst, differential abundance, microbial biomarkers, species-level differential analysis, or LEfSe analysis.
+  Route microbiome biomarker discovery, taxon-level group comparison, taxonomic
+  profiling, community abundance processing, functional potential prediction,
+  and LEfSe-style effect-size analysis workflows on Bio-OS. Trigger when user
+  mentions LEfSe, microbiome differential analysis, microbial biomarker, group
+  comparison, taxonomic profiling, abundance binning, PICRUSt, Kaiju, DUDes,
+  StrainEst, differential abundance, microbial biomarkers, species-level
+  differential analysis, or LEfSe analysis.
+disable: true
 ---
 
 # Bio-OS Microbiome
@@ -15,15 +18,16 @@ This is the business-layer skill for microbiome and microbial community analysis
 
 - Use this skill when the user wants microbiome biomarker discovery, taxon-level group comparison, community taxonomic profiling, abundance binning, functional-potential prediction, or LEfSe-style effect-size analysis.
 - Use this skill for abundance tables or feature matrices derived from microbiome studies rather than raw pathogen consensus-sequence QC, lineage assignment, or viral SNV calling.
-- If the request is about Nextclade, Pangolin, viral SNV detection, or HiFi MAG reconstruction, route to `../bioos_microbiology_pathology/SKILL.md` instead.
-- If a new workflow must be authored or a runtime image needs to be rebuilt, hand off to the `skills-cli` builder stack.
-- Before changing any image reference, consult `../bioos_docker_registry_catalog/SKILL.md`.
+- If the request is about Nextclade, Pangolin, viral SNV detection, or HiFi MAG reconstruction, route to the `bioos_microbiology_pathology` skill instead.
+- If a new workflow must be authored, hand off to the `bioos_pipeline_developer` skill.
+- If a runtime image needs to be rebuilt, hand off to the `bioos_docker_builder` skill.
+- Before changing any image reference, consult the `bioos_docker_registry_catalog` skill.
 
 ## Operating Rules
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Expose one user-facing workflow per scientific capability; internal task names are implementation details.
-- Prefer DRS URIs for user-provided primary inputs.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
 
 ## Included Workflows
 

@@ -1,6 +1,11 @@
 ---
 name: bioos_early_warning
-description: Route prevention, preparedness, and early-warning Bio-OS workflows collected from external GitHub or reproduction repositories. Use this skill for pathogen risk forecasting, lineage deconvolution, immune-trajectory modeling, viral alerting, escape estimation, fitness scoring, and antibody interaction or affinity prediction that should run as Bio-OS WDL workflows.
+description: Route prevention, preparedness, and early-warning Bio-OS workflows
+  collected from external GitHub or reproduction repositories. Use this skill
+  for pathogen risk forecasting, lineage deconvolution, immune-trajectory
+  modeling, viral alerting, escape estimation, fitness scoring, and antibody
+  interaction or affinity prediction that should run as Bio-OS WDL workflows.
+disable: true
 ---
 
 # Bio-OS Early Warning
@@ -10,15 +15,16 @@ This is the business-layer skill for prevention and early-warning workflows coll
 
 - Use this skill when the user is asking for preparedness drills, mutation forecasting, fitness prediction, immune-trajectory analysis, mixed-sample lineage decomposition, or antibody interaction scoring.
 - Use this skill for model-style analytical workflows that support pathogen early warning rather than routine sequencing QC, consensus lineage assignment, or standard DNA/RNA variant calling.
-- If the request is about observed-sequence QC, Nextclade, Pangolin, viral SNV detection, or metagenomic reconstruction, route to `../bioos_microbiology_pathology/SKILL.md` instead.
-- If a new workflow must be authored or a packaged WDL needs major repair, explicitly load the `skills-cli` builder stack rather than editing this business skill first.
-- Before changing any runtime image, consult `../bioos_docker_registry_catalog/SKILL.md`.
+- If the request is about observed-sequence QC, Nextclade, Pangolin, viral SNV detection, or metagenomic reconstruction, route to the `bioos_microbiology_pathology` skill instead.
+- If a new workflow must be authored, hand off to the `bioos_pipeline_developer` skill rather than editing this business skill first.
+- If a packaged WDL needs major repair, hand off to the `bioos_wdl_scripter` skill rather than editing this business skill first.
+- Before changing any runtime image, consult the `bioos_docker_registry_catalog` skill.
 
 ## Operating Rules
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Treat this skill as the description and routing layer. Internal task names are implementation details and should not be exposed as user-facing tools.
-- Prefer DRS URIs for user-uploaded biological inputs. Workspace object paths are acceptable in chained smoke-test templates exported from Bio-OS workspaces.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
 
 ## Included Workflows
 
@@ -372,7 +378,7 @@ These atomic workflows were imported from the source RO-Crate workspace. Each en
 <!-- IMPORTED_ATOMIC_TOOLS_END -->
 
 ## Execution Handoff
-- Start from the matching file under `tests/` and replace packaged demo inputs with the current workspace files before submission.
+- Start from the matching file under `tests/` and use the `bioos_platform_operator` skill to replace packaged demo inputs before submission.
 - For PETra, use `tests/petra_query_template.example.json` to author the query payload, then update `query_json` in `tests/petra_sars_cov2_mutation_prediction.inputs.json`.
 - For `viruswarn_*`, `population_immunity_sars_cov2_analysis`, and `rleaai_antibody_antigen_interaction_prediction`, the packaged templates may run with bundled demo data. For production use, replace the optional defaults with uploaded workspace inputs whenever available.
 - If the user is unsure between early-warning models and routine pathogen workflows, prefer this skill for forecasting, alerting, immune modeling, or antibody-model tasks, and prefer `bioos_microbiology_pathology` for observed-sequence QC, lineage assignment, viral SNV calling, or MAG reconstruction.

@@ -1,6 +1,14 @@
 ---
 name: bioos_microbiology_pathology
-description: Route microbiology, pathogen genomics, metagenomics, microbial genome annotation, AMR/CRISPR analysis, genome relatedness, and pathology-adjacent Bio-OS workflows. Use this skill for pathogen dataset preparation, consensus-sequence QC and clade assignment, viral lineage labeling, microbial gene prediction, Prokka/DFAST annotation, RGI resistance detection, RNAmmer/tRNAscan, OrthoANI/Mash comparison, and metagenome assembly or binning workflows that should run with Bio-OS WDLs.
+description: Route microbiology, pathogen genomics, metagenomics, microbial
+  genome annotation, AMR/CRISPR analysis, genome relatedness, and
+  pathology-adjacent Bio-OS workflows. Use this skill for SARS-CoV-2 S protein
+  extraction with pre-provisioned Nextclade datasets, general Nextclade pathogen
+  analysis by dataset name, viral lineage labeling, microbial gene prediction,
+  Prokka/DFAST annotation, RGI resistance detection, RNAmmer/tRNAscan,
+  OrthoANI/Mash comparison, and metagenome assembly or binning workflows that
+  should run with Bio-OS WDLs.
+disable: true
 ---
 
 # Bio-OS Microbiology And Pathology
@@ -8,67 +16,70 @@ description: Route microbiology, pathogen genomics, metagenomics, microbial geno
 ## Scope
 This is the business-layer skill for routine pathogen and microbiology workflows that operate on observed sequences or metagenomic reads.
 
-- Use this skill for Nextclade dataset preparation and pathogen genome analysis, Pangolin lineage assignment, microbial genome annotation, AMR/CRISPR analysis, genome relatedness, and metagenome assembly/binning/QC.
-- If the user asks for forecasting, alerting, immune-trajectory modeling, or external GitHub-derived prevention drills, route to `../bioos_early_warning/SKILL.md` instead.
-- If a new workflow must be authored or a runtime image needs to be rebuilt, hand off to the `skills-cli` builder stack.
-- Before changing any image reference, consult `../bioos_docker_registry_catalog/SKILL.md`.
+- Use this skill for Nextclade SARS-CoV-2 S protein extraction, general Nextclade pathogen analysis by dataset name, Pangolin lineage assignment, microbial genome annotation, AMR/CRISPR analysis, genome relatedness, and metagenome assembly/binning/QC.
+- If the user asks for forecasting, alerting, immune-trajectory modeling, or external GitHub-derived prevention drills, route to the `bioos_early_warning` skill instead.
+- If a new workflow must be authored, hand off to the `bioos_pipeline_developer` skill.
+- If a runtime image needs to be rebuilt, hand off to the `bioos_docker_builder` skill.
+- Before changing any image reference, consult the `bioos_docker_registry_catalog` skill.
 
 ## Operating Rules
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
-- Prefer DRS URIs for user-provided primary inputs. Chained smoke-test examples may keep internal workspace object paths when exported that way from Bio-OS.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
 - Expose one workflow per user-facing scientific capability; internal tasks are implementation details.
+- Do not expose Nextclade dataset preparation as a user-facing workflow in this skill. SARS-CoV-2 dataset files are prepared upstream and pinned as internal defaults inside the analysis WDL.
 
 ## Included Workflows
 
-### 1. `nextclade_dataset_prepare`
-**Path**: `scripts/nextclade_dataset_prepare.wdl`  
-**Test Input**: `tests/nextclade_dataset_prepare.inputs.json`
+### 1. `nextclade_sars_cov2_s_protein`
+**Path**: `scripts/nextclade_sars_cov2_s_protein.wdl`
+**Test Input**: `tests/nextclade_sars_cov2_s_protein.inputs.json`
 
-Download a named Nextclade dataset and emit the reference plus metadata bundle as Bio-OS outputs.
+Run `nextclade run` on SARS-CoV-2 consensus genomes with pinned dataset files and emit the S protein FASTA plus QC, clade, mutation, and tree-oriented outputs.
 
-- Trigger when: the user needs a dataset bundle before downstream Nextclade analysis.
-- Do not use when: the dataset already exists and the user only needs to analyze query genomes.
+- Trigger when: the user has a SARS-CoV-2 consensus FASTA and wants S protein sequence output, consensus-sequence QC, mutation summaries, clade assignment, or richer Nextclade reports.
+- Do not use when: the input is raw FASTQ or the user only wants a single PANGO lineage label.
+- Dataset handling: do not ask the user for Nextclade reference, annotation, tree, or pathogen JSON files. The WDL pins these as internal defaults produced by upstream dataset preparation.
 
 ```yaml
-name: nextclade_dataset_prepare
-description: Download a named Nextclade dataset and expose the reference and metadata files as workflow outputs.
+name: nextclade_sars_cov2_s_protein
+description: Run Nextclade on a SARS-CoV-2 query FASTA using pre-provisioned dataset files and return S protein FASTA plus QC outputs.
 required_parameters:
-  - dataset_name
-optional_parameters:
+  - query_fasta
+internal_defaults:
   - output_prefix
+  - include_reference
+  - preserve_order
   - docker_image
   - memory_gb
   - disk_space_gb
   - cpu_threads
 outputs:
-  - reference_fasta
-  - genome_annotation_gff3
-  - tree_json
-  - pathogen_json
-  - examples_fasta
-  - dataset_manifest_files
+  - spike_protein_fasta
+  - aligned_fasta
+  - result_jsons
+  - result_tables
+  - tree_outputs
+  - version_file
 ```
 
-### 2. `nextclade_pathogen_genome_analysis`
-**Path**: `scripts/nextclade_pathogen_genome_analysis.wdl`  
-**Test Input**: `tests/nextclade_pathogen_genome_analysis.inputs.json`
+### 2. `nextclade_general_pathogen_analysis`
+**Path**: `scripts/nextclade_general_pathogen_analysis.wdl`
+**Test Input**: `tests/nextclade_general_pathogen_analysis.inputs.json`
 
-Run `nextclade run` on pathogen consensus genomes and emit QC, clade, mutation, and tree-oriented outputs.
+Run `nextclade run` on a user-selected dataset name. This is the flexible entry point for pathogens other than SARS-CoV-2, or for SARS-CoV-2 analyses that need a different Nextclade dataset.
 
-- Trigger when: the user wants consensus-sequence QC, mutation summaries, clade assignment, or richer Nextclade reports.
-- Do not use when: the input is raw FASTQ or the user only wants a single PANGO lineage label.
+- Trigger when: the user knows which Nextclade dataset to use or asks for a non-SARS-CoV-2 Nextclade run.
+- Do not use when: the user simply wants SARS-CoV-2 S protein FASTA; use `nextclade_sars_cov2_s_protein` instead.
+- Dataset handling: this workflow downloads the requested dataset at runtime with `nextclade dataset get --name`; use pinned pre-provisioned datasets in a pathogen-specific workflow when strict reproducibility is required.
 
 ```yaml
-name: nextclade_pathogen_genome_analysis
-description: Run Nextclade on query genomes using a prepared dataset bundle and return QC plus clade outputs.
+name: nextclade_general_pathogen_analysis
+description: Run Nextclade on query genomes using a caller-provided Nextclade dataset name and return QC tables plus all translated CDS FASTA files as a tarball.
 required_parameters:
   - query_fasta
-  - reference_fasta
-  - genome_annotation_gff3
-  - tree_json
-  - pathogen_json
-optional_parameters:
+  - dataset_name
+internal_defaults:
   - output_prefix
   - include_reference
   - preserve_order
@@ -80,7 +91,8 @@ outputs:
   - aligned_fasta
   - result_jsons
   - result_tables
-  - tree_outputs
+  - translations_tar_gz
+  - dataset_files_txt
   - version_file
 ```
 
@@ -313,7 +325,7 @@ tRNAscan-SE tool workflow for tRNA gene prediction.
 - Docker images: `registry-vpc.miracle.ac.cn/nmdc/trnascan_se:latest`.
 
 ## Execution Handoff
-- If the user needs a fresh Nextclade dataset bundle, start from `tests/nextclade_dataset_prepare.inputs.json`.
-- If the user wants Nextclade sequence analysis, start from `tests/nextclade_pathogen_genome_analysis.inputs.json` and replace `query_fasta` plus the dataset-derived object paths with files from the current workspace.
+- If the user wants SARS-CoV-2 S protein extraction, start from `tests/nextclade_sars_cov2_s_protein.inputs.json` and use the `bioos_platform_operator` skill to replace only `query_fasta` before submission.
+- If the user wants a general Nextclade run for another pathogen, start from `tests/nextclade_general_pathogen_analysis.inputs.json` and replace `query_fasta` plus `dataset_name`.
 - If the user wants Pangolin lineage assignment, start from `tests/pangolin_sars_cov2_lineage_assignment.inputs.json` and replace the packaged FASTA with the current consensus genome.
 - If the request is about mutation forecasting, alerting, immune modeling, or antibody-model workflows, switch to `bioos_early_warning` instead of extending this skill.
