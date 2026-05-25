@@ -35,8 +35,9 @@ Generate the template and fill it locally.
 1. Get the template:
    `<bioos_launch> workflow input-template --workspace-name <workspace_name> --workflow-name <workflow_name> --output json --pretty`
 2. Write a local `inputs.json` that fills every required value.
-3. If the template asks for values you cannot safely infer, ask the user immediately. Do not invent reference paths or database locations.
-4. For batch runs, the final `inputs.json` must be a JSON array of objects, for example:
+3. For WDL `File` inputs, use `drs://...`, workspace `s3://...`, or local absolute file paths. The Bio-OS CLI submit command (`<bioos_launch> workflow submit ...`) automatically uploads existing local paths to `input_provision/` and replaces them with S3 URLs. For large or reused files, pre-upload with `<bioos_launch> file upload --workspace-name <workspace_name> --source /abs/path/to/file --target input_provision/ --skip-existing --output json --pretty`, then put the returned `s3_url` in `inputs.json`. Do not convert local paths or workspace S3 URLs to DRS.
+4. If the template asks for values you cannot safely infer, ask the user immediately. Do not invent reference paths or database locations.
+5. For batch runs, the final `inputs.json` must be a JSON array of objects, for example:
 
 ```json
 [

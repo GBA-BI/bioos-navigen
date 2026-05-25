@@ -1,6 +1,9 @@
 ---
 name: bioos_proteomics
-description: Route protein-centric Bio-OS workflows. Use this skill for protein sequence alignment and other proteomics-adjacent workflows that should run as Bio-OS WDLs.
+description: Route protein-centric Bio-OS workflows. Use this skill for protein
+  sequence alignment and other proteomics-adjacent workflows that should run as
+  Bio-OS WDLs.
+disable: true
 ---
 
 # Bio-OS Proteomics
@@ -12,6 +15,7 @@ This is the business-layer skill for protein-focused workflows, currently center
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Use the workflow description below as the routing entry rather than exposing internal tasks directly.
+- For WDL `File` inputs, follow the `bioos_platform_operator` skill's file path instructions.
 
 ## Included Workflows
 
