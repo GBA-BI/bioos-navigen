@@ -1,12 +1,15 @@
 ---
 name: bioos_docker_registry_catalog
-description: Reference catalog of Bio-OS workflow container images. Use this skill to look up standard linux/amd64 images before changing workflow runtime blocks or deciding whether a new image must be built.
+description: Reference catalog of Bio-OS workflow container images. Use this
+  skill to look up standard linux/amd64 images before changing workflow runtime
+  blocks or deciding whether a new image must be built.
+disable: true
 ---
 
 # Bio-OS Docker Registry Catalog
 
 ## Scope
-This catalog records the default container images referenced by the current business-layer skills under `skills-bioinformatics`.
+This catalog records the default container images referenced by the current Bio-OS business-layer workflows.
 
 ## Operating Rules
 - Prefer an existing cataloged image before building a new one.
@@ -18,7 +21,7 @@ This catalog records the default container images referenced by the current busi
 | Image | Arch | Referenced By | Purpose |
 | --- | --- | --- | --- |
 | `registry-vpc.miracle.ac.cn/broad/gtex-rnaseq:V10` | `linux/amd64` | `bulk_rnaseq_quantification.wdl` | GTEx-style bulk RNA-seq alignment, RNA-SeQC2 metrics, and RSEM quantification. |
-| `registry-vpc.miracle.ac.cn/auto-build/nextclade-dataset-prep:20260313-v1` | `linux/amd64` | `nextclade_dataset_prepare.wdl`, `nextclade_pathogen_genome_analysis.wdl` | Nextclade dataset preparation and pathogen genome analysis. |
+| `registry-vpc.miracle.ac.cn/auto-build/nextclade-dataset-prep:20260313-v1` | `linux/amd64` | `nextclade_sars_cov2_s_protein.wdl`, `nextclade_general_pathogen_analysis.wdl` | Nextclade SARS-CoV-2 S protein extraction and general pathogen analysis. |
 | `registry-vpc.miracle.ac.cn/auto-build/pangolin-sarscov2:20260312-v1` | `linux/amd64` | `pangolin_sars_cov2_lineage_assignment.wdl` | Pangolin lineage assignment for SARS-CoV-2 consensus genomes. |
 | `registry-vpc.miracle.ac.cn/auto-build/petra-cpu-paper2workspace:20260316` | `linux/amd64` | `petra_sars_cov2_mutation_prediction.wdl` | PETra CPU inference for SARS-CoV-2 mutation early warning. |
 | `registry-vpc.miracle.ac.cn/auto-build/abaffinity-p2w:20260313-v1` | `linux/amd64` | `abaffinity_antibody_affinity_prediction.wdl` | AbAffinity batch antibody-affinity prediction from CSV input. |

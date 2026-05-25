@@ -1,6 +1,10 @@
 ---
 name: bioos_transcriptomics
-description: Route transcriptomics Bio-OS workflows. Use this skill for bulk RNA-seq quantification, RNA-seq alignment, transcript assembly, transcript quantification, and differential expression workflows that should run with Bio-OS WDLs.
+description: Route transcriptomics Bio-OS workflows. Use this skill for bulk
+  RNA-seq quantification, RNA-seq alignment, transcript assembly, transcript
+  quantification, and differential expression workflows that should run with
+  Bio-OS WDLs.
+disable: true
 ---
 
 # Bio-OS Transcriptomics
@@ -11,13 +15,14 @@ This is the business-layer skill for transcriptome-focused workflows.
 - Use this skill for expression-oriented RNA pipelines, RNA-seq alignment, transcript assembly, transcript quantification, and differential expression analysis.
 - Use this skill for bulk RNA-seq quantification with STAR/RNA-SeQC/RSEM in addition to imported STAR, HISAT2, StringTie, Kallisto, Sailfish, Cufflinks, Cuffdiff, Ballgown, DESeq2, Oases, and Trinity workflows.
 - Do not use this skill for variant-centric DNA or RNA calling; those should route to `bioos_genomics`.
-- Before changing image references, consult `../bioos_docker_registry_catalog/SKILL.md`.
+- Before changing image references, consult the `bioos_docker_registry_catalog` skill.
 
 ## Operating Rules
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Prefer the workflow names below as the routing units exposed to the LLM.
-- Start from the packaged test input and swap in the current workspace files before running on Bio-OS.
+- For WDL `File` inputs, follow the `bioos_platform_operator` skill's file path instructions.
+- Start from the packaged test input and swap in the run-specific files according to `bioos_platform_operator`.
 
 ## Included Workflows
 

@@ -22,7 +22,8 @@ Construct the `inputs.json` for the workflow.
 1.  Use `generate_inputs_json_template_bioos` with the registered workflow name to retrieve the required input schema.
 2.  Fill in the required values based on the parameters required for the analysis (e.g., SRR IDs, or sample arrays).
     *   **CRITICAL PAUSE**: If the generated `inputs.json` template asks for information, reference files, or database paths that you cannot confidently deduce from the context or the Workspace artifacts, you **MUST IMMEDIATELY ask the user** for these values. Do NOT guess or invent reference paths.
-3.  **Batch Submissions (CRITICAL)**: If the workflow needs to process multiple distinct items in parallel (e.g., fetching multiple SRR/GSE IDs, or analyzing multiple valid FASTQ pairs), you **MUST** format the `inputs.json` as a JSON **array of objects** to trigger a batch run on Bio-OS.
+3.  For WDL `File` inputs, use `drs://...`, workspace `s3://...`, or local absolute file paths. The `submit_workflow` tool automatically uploads existing local paths to `input_provision/` and replaces them with S3 URLs. For large or reused files, pre-upload with `upload_files_to_workspace` (`target: "input_provision/"`, `skip_existing: true`) and put the returned `s3_url` in `inputs.json`. Do not convert local paths or workspace S3 URLs to DRS.
+4.  **Batch Submissions (CRITICAL)**: If the workflow needs to process multiple distinct items in parallel (e.g., fetching multiple SRR/GSE IDs, or analyzing multiple valid FASTQ pairs), you **MUST** format the `inputs.json` as a JSON **array of objects** to trigger a batch run on Bio-OS.
     *   Example: `[{"TargetWDL.id": "ID1"}, {"TargetWDL.id": "ID2"}]`
 
 ### Step 3: Execution and Monitoring
