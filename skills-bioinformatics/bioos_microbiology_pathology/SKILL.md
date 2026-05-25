@@ -25,7 +25,7 @@ This is the business-layer skill for routine pathogen and microbiology workflows
 ## Operating Rules
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
-- For WDL `File` inputs, follow the `bioos_platform_operator` skill's file path instructions. `inputs.json` may use `drs://...`, workspace `s3://...`, or an existing local absolute path. Do not convert local user files to DRS just because packaged examples use DRS.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
 - Expose one workflow per user-facing scientific capability; internal tasks are implementation details.
 - Do not expose Nextclade dataset preparation as a user-facing workflow in this skill. SARS-CoV-2 dataset files are prepared upstream and pinned as internal defaults inside the analysis WDL.
 
@@ -325,7 +325,7 @@ tRNAscan-SE tool workflow for tRNA gene prediction.
 - Docker images: `registry-vpc.miracle.ac.cn/nmdc/trnascan_se:latest`.
 
 ## Execution Handoff
-- If the user wants SARS-CoV-2 S protein extraction, start from `tests/nextclade_sars_cov2_s_protein.inputs.json` and replace only `query_fasta` according to the `bioos_platform_operator` skill's file path instructions.
+- If the user wants SARS-CoV-2 S protein extraction, start from `tests/nextclade_sars_cov2_s_protein.inputs.json` and use the `bioos_platform_operator` skill to replace only `query_fasta` before submission.
 - If the user wants a general Nextclade run for another pathogen, start from `tests/nextclade_general_pathogen_analysis.inputs.json` and replace `query_fasta` plus `dataset_name`.
 - If the user wants Pangolin lineage assignment, start from `tests/pangolin_sars_cov2_lineage_assignment.inputs.json` and replace the packaged FASTA with the current consensus genome.
 - If the request is about mutation forecasting, alerting, immune modeling, or antibody-model workflows, switch to `bioos_early_warning` instead of extending this skill.

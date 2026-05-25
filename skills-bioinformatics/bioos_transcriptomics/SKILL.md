@@ -21,8 +21,8 @@ This is the business-layer skill for transcriptome-focused workflows.
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Prefer the workflow names below as the routing units exposed to the LLM.
-- For WDL `File` inputs, follow the `bioos_platform_operator` skill's file path instructions.
-- Start from the packaged test input and swap in the run-specific files according to `bioos_platform_operator`.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
+- Start from the packaged test input, then use the `bioos_platform_operator` skill when swapping in run-specific files.
 
 ## Included Workflows
 

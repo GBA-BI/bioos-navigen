@@ -24,7 +24,7 @@ This is the business-layer skill for prevention and early-warning workflows coll
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Treat this skill as the description and routing layer. Internal task names are implementation details and should not be exposed as user-facing tools.
-- For WDL `File` inputs, follow the `bioos_platform_operator` skill's file path instructions. `inputs.json` may use `drs://...`, workspace `s3://...`, or an existing local absolute path.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
 
 ## Included Workflows
 
@@ -378,7 +378,7 @@ These atomic workflows were imported from the source RO-Crate workspace. Each en
 <!-- IMPORTED_ATOMIC_TOOLS_END -->
 
 ## Execution Handoff
-- Start from the matching file under `tests/` and replace packaged demo inputs according to the `bioos_platform_operator` skill's file path instructions before submission.
+- Start from the matching file under `tests/` and use the `bioos_platform_operator` skill to replace packaged demo inputs before submission.
 - For PETra, use `tests/petra_query_template.example.json` to author the query payload, then update `query_json` in `tests/petra_sars_cov2_mutation_prediction.inputs.json`.
 - For `viruswarn_*`, `population_immunity_sars_cov2_analysis`, and `rleaai_antibody_antigen_interaction_prediction`, the packaged templates may run with bundled demo data. For production use, replace the optional defaults with uploaded workspace inputs whenever available.
 - If the user is unsure between early-warning models and routine pathogen workflows, prefer this skill for forecasting, alerting, immune modeling, or antibody-model tasks, and prefer `bioos_microbiology_pathology` for observed-sequence QC, lineage assignment, viral SNV calling, or MAG reconstruction.

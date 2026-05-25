@@ -27,7 +27,7 @@ This is the business-layer skill for microbiome and microbial community analysis
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Expose one user-facing workflow per scientific capability; internal task names are implementation details.
-- For WDL `File` inputs, follow the `bioos_platform_operator` skill's file path instructions. `inputs.json` may use `drs://...`, workspace `s3://...`, or an existing local absolute path.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
 
 ## Included Workflows
 

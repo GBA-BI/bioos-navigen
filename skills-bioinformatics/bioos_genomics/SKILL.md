@@ -22,8 +22,8 @@ This is the business-layer skill for genomics sequence-analysis workflows.
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Use the workflow names below as the user-facing routing units; internal `task` blocks are implementation details.
-- For WDL `File` inputs, follow the `bioos_platform_operator` skill's file path instructions.
-- Prefer the provided `tests/*.inputs.json` as starting templates, then replace file inputs according to `bioos_platform_operator`.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
+- Prefer the provided `tests/*.inputs.json` as starting templates, then use the `bioos_platform_operator` skill when replacing file inputs.
 
 ## Included Workflows
 
@@ -257,5 +257,5 @@ XSTREAM rapidly identifies and models basic tandem repeat (TR) structures in pro
 <!-- IMPORTED_ATOMIC_TOOLS_END -->
 
 ## Execution Handoff
-- Start from the paired `tests/*.inputs.json` template for the selected workflow and replace placeholder paths according to the `bioos_platform_operator` skill's file path instructions.
+- Start from the paired `tests/*.inputs.json` template for the selected workflow and use the `bioos_platform_operator` skill when replacing placeholder file inputs.
 - If the user needs a new image, hand off to the `bioos_docker_builder` skill; for major WDL rewrites, hand off to the `bioos_wdl_scripter` skill instead of modifying this business skill first.

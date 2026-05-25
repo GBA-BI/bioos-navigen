@@ -15,7 +15,7 @@ This is the business-layer skill for protein-focused workflows, currently center
 - Keep runnable workflows in `scripts/`.
 - Keep packaged input templates in `tests/`.
 - Use the workflow description below as the routing entry rather than exposing internal tasks directly.
-- For WDL `File` inputs, follow the `bioos_platform_operator` skill's file path instructions.
+- For WDL `File` inputs, use the `bioos_platform_operator` skill and follow its file-input instructions.
 
 ## Included Workflows
 
