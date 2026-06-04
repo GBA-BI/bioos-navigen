@@ -21,6 +21,70 @@ Use only one platform-operation tree at a time: choose `skills/` if the machine 
 
 `skills/` and `skills-cli/` should stay behaviorally synchronized. `skills-bioinformatics/` should remain neutral and should not mention either directory by name; that is the small trick that lets the same business-layer workflows work with both execution surfaces.
 
+## Installation
+
+To load these skills into your developer assistant, you can use the automatic setup script or configure them manually. The installation is configured at the project level.
+
+### Quick Install (Project-Level)
+
+To automatically install these skills into your project directory:
+
+1. Clone or pull the `bioos-navigen` repository to your local machine:
+   ```bash
+   git clone https://github.com/GBA-BI/bioos-navigen.git
+   ```
+
+2. Enter your project directory, copy the `setup_skills.sh` script, grant execution permissions, and run it by specifying the source repository path:
+   ```bash
+   # Enter your project directory
+   cd /path/to/your/project
+
+   # Copy setup_skills.sh from the cloned repo
+   cp /path/to/bioos-navigen/setup_skills.sh .
+
+   # Grant execution permission
+   chmod +x setup_skills.sh
+
+   # Run setup and specify the source path of bioos-navigen
+   ./setup_skills.sh --copy --source /path/to/bioos-navigen
+   ```
+
+This script will automatically detect and install the skills into the local config folders of the following developers' assistants in your project:
+- **Antigravity** (`.agent/skills/`)
+- **Codex** (`.agents/skills/` and `.codex/skills/`)
+- **Claude Code** (`.claude/skills/`)
+
+
+
+### Manual Installation (Project-Level)
+
+If you prefer to configure the skills manually, run the following commands from the repository root.
+
+#### Copying Skills Physically (Deployment)
+
+```bash
+# Create local agent configuration directories
+mkdir -p .agent/skills .agents/skills .codex/skills .claude/skills
+
+# Copy skills (e.g. for Antigravity)
+cp -R skills-cli/* .agent/skills/
+cp -R skills-bioinformatics/* .agent/skills/
+```
+
+#### Linking Skills Relatively (Development)
+
+To link custom skills without duplicating files, you can create relative symlinks:
+
+```bash
+# Create directories if not exists
+mkdir -p .agent/skills
+
+# Create relative symlinks
+cd .agent/skills
+ln -s ../../skills-cli/* .
+ln -s ../../skills-bioinformatics/* .
+```
+
 ## Architecture
 
 Bio-OS Navigen uses a three-tier capability model:

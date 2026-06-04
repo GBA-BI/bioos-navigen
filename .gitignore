@@ -1,0 +1,21 @@
+# Agent directories
+.agent/
+.agents/
+.claude/
+.codex/
+
+# OS metadata
+.DS_Store
+**/.DS_Store
+
+# Session/Conversations logs and temp configs
+g2.json
+gemini-conversation-*.json
+
+# Experimental, legacy or transfer files
+original_prompts/
+system_prompt_original/
+skills-biomni/
+tests/
+transfer/
+single_cell_migration_guide.md
