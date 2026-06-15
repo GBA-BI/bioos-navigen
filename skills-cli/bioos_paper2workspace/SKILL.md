@@ -277,7 +277,7 @@ Goal: build the executable artifacts.
 1. Explicitly declare that `bioos_pipeline_developer` is required and follow it.
 2. Development directives:
    - Clone the paper repository inside the generated Dockerfiles when the workflow depends on repo code at runtime.
-   - Convert `wdl_workflow.tasks` into one validated WDL script and its task images.
+   - Convert `wdl_workflow.tasks` into one generated WDL script and its task images.
    - Convert `ies_application` into one interactive image.
 3. Persist outputs back to the card.
    - Save actual Docker image URLs into the task or IES environments.

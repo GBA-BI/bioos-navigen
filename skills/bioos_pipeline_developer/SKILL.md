@@ -24,9 +24,9 @@ Every distinct tool step (Task in WDL) in the pipeline must run inside a Bio-OS 
 ### Step 3: Workflow Scripting
 Once all required `docker_image` URLs are built and validated:
 - Explicitly declare that the **`bioos_wdl_scripter`** skill is required to translate the logical steps and Docker URLs into a compliant WDL file.
-- This will load the WDL structuring guidelines into your context. Follow those rules to generate and validate the `.wdl` code.
+- This will load the WDL structuring guidelines into your context. Follow those rules to generate the `.wdl` code.
 
 ### Step 4: Pipeline Finalization
-Once the validated WDL file is produced, the pipeline development is complete.
+Once the WDL file is produced, the pipeline development is complete.
 - If the user simply wanted the pipeline built, present the finalized code to them.
 - If the pipeline needs to be automatically executed on the cloud platform immediately, explicitly state that the **`bioos_platform_operator`** skill MUST be loaded into your context to handle deployment.

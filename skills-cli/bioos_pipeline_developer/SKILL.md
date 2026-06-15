@@ -27,10 +27,10 @@ Every distinct task environment must be backed by a Bio-OS-compatible Docker ima
 After the images are ready:
 
 - Explicitly declare that `bioos_wdl_scripter` is required.
-- Use it to translate the logical steps and Docker image URLs into one validated WDL file.
+- Use it to translate the logical steps and Docker image URLs into one generated WDL file.
 
 ### Step 4: Pipeline finalization
-Once the WDL validates successfully:
+Once the WDL file is produced:
 
 - If the user only asked for pipeline construction, present the finalized WDL and image plan.
 - If the pipeline must be executed on Bio-OS immediately, explicitly declare that `bioos_platform_operator` is required to handle CLI-based deployment.

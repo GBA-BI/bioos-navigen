@@ -114,17 +114,15 @@ For each folder:
 1. Resolve one primary Markdown file, one primary `.wdl`, and one `*.inputs.json` or representative `.json`.
 2. Infer `workspace_name` and `workspace_description` from the Markdown title and overview; fall back to the folder name.
 3. Infer `workflow_name` from the WDL workflow block; fall back to `workspace_name`.
-4. Validate the WDL:
-   `<bioos_launch> workflow validate --wdl-path /abs/path/workflow.wdl --output json --pretty`
-5. Create the workspace:
+4. Create the workspace:
    `<bioos_launch> workspace create --workspace-name <workspace_name> --workspace-description <workspace_description> --output json --pretty`
-6. Import the WDL:
+5. Import the WDL:
    `<bioos_launch> workflow import --workspace-name <workspace_name> --workflow-name <workflow_name> --workflow-source /abs/path/workflow.wdl --workflow-desc <workflow_desc> --output json --pretty`
-7. Resolve the workflow id with `workflow list` if needed:
+6. Resolve the workflow id with `workflow list` if needed:
    `<bioos_launch> workflow list --workspace-name <workspace_name> --search-keyword <workflow_name> --output json --pretty`
-8. Poll import validation:
+7. Poll import validation:
    `<bioos_launch> workflow import-status --workspace-name <workspace_name> --workflow-id <workflow_id> --output json --pretty`
-9. Generate, validate, and upload `__dashboard__.md` using the same workspace guide standards above.
+8. Generate, review, and upload `__dashboard__.md` using the same workspace guide standards above.
 
 Only submit the example inputs JSON when the user explicitly asks to run the imported workflow:
 

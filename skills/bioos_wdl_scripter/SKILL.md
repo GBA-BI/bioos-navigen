@@ -1,16 +1,16 @@
 ---
 name: bioos_wdl_scripter
-description: Generate, validate, and format WDL workflows that run on Bio-OS platform. Trigger this skill when custom WDL workflow code needs to be developed.
+description: Generate and format WDL workflows that run on Bio-OS platform. Trigger this skill when custom WDL workflow code needs to be developed.
 ---
 
 # Bio-OS WDL Scripter
 
 ## 1. Operating Principle
-This skill defines the procedures for generating error-free, platform-compliant WDL 1.0 workflows from logical analysis steps.
+This skill defines the procedures for generating platform-compliant WDL 1.0 workflows from logical analysis steps.
 
 ## 2. Execution Workflow (The SOP)
 
-You must follow these steps sequentially to generate and validate a working WDL file.
+You must follow these steps sequentially to generate a working WDL file.
 
 ### Step 1: Write the WDL Script
 Generate the WDL text according to the **WDL Generation Standard** below. Ensure every logical step is its own `task` and all tasks are tied together in a single `workflow` block. Save the file locally (e.g., to `/tmp/workflow.wdl`).
@@ -60,10 +60,5 @@ Each `task` you generate MUST adhere to the following rules:
 - It defines the execution order by chaining the tasks together.
 - It MUST be included at the bottom of the same `.wdl` file as the tasks.
 
-### Step 2: Validate the WDL syntax
-Once the file is generated, you MUST run the `validate_wdl` MCP Tool on the absolute path of your generated file.
-- **Success**: If validation passes, proceed to Step 3.
-- **Failure**: If validation returns syntax errors, you MUST read the error messages, update the local WDL file to fix the bugs, and run `validate_wdl` again until it passes.
-
-### Step 3: Final Output
-Once `validate_wdl` succeeds, actively present the validated `.wdl` file (or its absolute file path) to the user or clearly state it is ready for subsequent steps in the pipeline development process.
+### Step 2: Final Output
+Actively present the generated `.wdl` file or its absolute file path to the user, or clearly state it is ready for subsequent steps in the pipeline development process.

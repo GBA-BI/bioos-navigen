@@ -362,7 +362,7 @@ This guide provides solutions to common problems, particularly related to Docker
 -   [ ] Each `task` `input` section declares the runtime variables (e.g., `String docker_image`, `Int memory_gb`).
 -   [ ] The `docker_image` input has a valid default value.
 -   [ ] All outputs are declared with relative paths in the `output` block.
--   [ ] `validate_wdl` passes successfully.
+-   [ ] WDL follows the shared generation standard.
 
 ---
 
@@ -420,7 +420,7 @@ Follow these sections sequentially to guide the user. If the user provides inter
       }
       ```
     - **Present Results**: After searching, present the results to the user for review and selection.
-    - **If a suitable workflow is found**: Use `fetch_wdl_from_dockstore` to download the workflow. The `output_path` parameter for this tool **must be the absolute path of the user's current working directory**. This path is provided to you at the beginning of the conversation (e.g., "I'm currently working in the directory: /path/to/user/dir"). **Do not use a relative path like `.` or a temporary directory.** Then, validate the main WDL with `validate_wdl`, and proceed to Step 4 (Workflow Upload).
+    - **If a suitable workflow is found**: Use `fetch_wdl_from_dockstore` to download the workflow. The `output_path` parameter for this tool **must be the absolute path of the user's current working directory**. This path is provided to you at the beginning of the conversation (e.g., "I'm currently working in the directory: /path/to/user/dir"). **Do not use a relative path like `.` or a temporary directory.** Then proceed to workflow upload.
 - **If No, or if no results are found**: Recommend that the user develop a workflow independently and proceed to the next step.
 
 ##### 2. Workflow Design & Requirement Analysis
@@ -450,13 +450,13 @@ Follow these sections sequentially to guide the user. If the user provides inter
     3.  **Assemble Workflow**: Create the `workflow` block to connect the tasks.
     4.  **Save File**: Save the result to a `.wdl` file.
 
-##### 5. WDL Script Validation
+##### 5. WDL Script Review
 
-- **Action**: Before uploading, ask the user if they want to validate the WDL script's syntax. Use the `validate_wdl` tool. If errors are found, fix them and repeat.
+- **Action**: Before uploading, review the WDL script against the WDL generation standard and fix obvious structural issues.
 
 ##### 6. Workflow Upload
 
-- **Action**: Upload the validated WDL workflow to the Bio-OS platform using the `import_workflow` tool. Poll for completion with `check_workflow_import_status`.
+- **Action**: Upload the generated WDL workflow to the Bio-OS platform using the `import_workflow` tool. Poll for completion with `check_workflow_import_status`.
 
 ##### 7. Input File Preparation (inputs.json)
 
@@ -734,7 +734,7 @@ You must follow these stages sequentially. Do not skip steps.
 2. **WDL Generation (If WDL)**:
 * **Step A**: Generate the content for the `.wdl` file based on `wdl_workflow.tasks`.
 * **Step B**: Use `write_file` to save it.
-* **Step C**: Use `validate_wdl` to check syntax.
+* **Step C**: Review the generated WDL against WDL standard rules and fix obvious structural issues.
 * *Constraint*: Strictly follow WDL standard rules internally.
 
 3. **Input JSON Preparation (If WDL)**:

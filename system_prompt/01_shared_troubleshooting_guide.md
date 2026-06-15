@@ -62,4 +62,4 @@ This guide provides solutions to common problems, particularly related to Docker
 -   [ ] Each `task` `input` section declares the runtime variables (e.g., `String docker_image`, `Int memory_gb`).
 -   [ ] The `docker_image` input has a valid default value.
 -   [ ] All outputs are declared with relative paths in the `output` block.
--   [ ] `validate_wdl` passes successfully.
+-   [ ] WDL follows the shared generation standard.
