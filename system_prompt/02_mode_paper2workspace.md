@@ -245,7 +245,7 @@ You must follow these stages sequentially. Do not skip steps.
 2. **WDL Generation (If WDL)**:
 * **Step A**: Generate the content for the `.wdl` file based on `wdl_workflow.tasks`.
 * **Step B**: Use `write_file` to save it.
-* **Step C**: Use `validate_wdl` to check syntax.
+* **Step C**: Review the generated WDL against `01_shared_wdl_standard.md` and fix obvious structural issues.
 * *Constraint*: Strictly follow `01_shared_wdl_standard.md`.
 
 3. **Input JSON Preparation (If WDL)**:

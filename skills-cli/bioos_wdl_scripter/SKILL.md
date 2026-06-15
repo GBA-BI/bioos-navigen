@@ -1,14 +1,12 @@
 ---
 name: bioos_wdl_scripter
-description: Generate, validate, and format WDL workflows for Bio-OS by using the Bio-OS CLI validator. Trigger this skill when custom WDL workflow code needs to be developed.
+description: Generate and format WDL workflows for Bio-OS platform execution. Trigger this skill when custom WDL workflow code needs to be developed.
 ---
 
 # Bio-OS WDL Scripter
 
-Resolve the Bio-OS CLI launcher first and refer to it as `<bioos_launch>`. If it is not known yet, explicitly load the `bioos_cli_locator` skill before running the commands below.
-
 ## Operating Principle
-This skill defines the procedure for generating platform-compliant WDL 1.0 workflows and validating them with the Bio-OS CLI.
+This skill defines the procedure for generating platform-compliant WDL 1.0 workflows for Bio-OS platform execution.
 
 ## Execution Workflow
 
@@ -52,14 +50,5 @@ runtime {
 - The `workflow` block is mandatory
 - The `workflow` block must connect tasks in the intended execution order
 
-### Step 2: Validate the WDL syntax
-Validate the local file with the CLI:
-
-`<bioos_launch> workflow validate --wdl-path /abs/path/to/workflow.wdl --output json --pretty`
-
-Validation loop:
-- If validation succeeds, continue
-- If validation fails, read the error messages, fix the WDL, and validate again until it passes
-
-### Step 3: Final Output
-Once validation succeeds, present the validated file path or the final WDL content and make it available for downstream platform execution.
+### Step 2: Final Output
+Present the generated WDL file path or the final WDL content and make it available for downstream platform execution.
