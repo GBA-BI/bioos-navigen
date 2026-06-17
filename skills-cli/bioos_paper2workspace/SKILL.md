@@ -1,6 +1,6 @@
 ---
 name: bioos_paper2workspace
-description: Parse and orchestrate the reproduction of a computational biology paper on Bio-OS platform. Trigger this skill when the user provides a paper or asks to reproduce a paper on Bio-OS.
+description: Parse and orchestrate the reproduction of a computational biology paper on Bio-OS platform. Trigger this skill when the user provides a paper (PDF/DOI/URL) or asks to "reproduce a paper".
 ---
 
 # Bio-OS Paper2Workspace
