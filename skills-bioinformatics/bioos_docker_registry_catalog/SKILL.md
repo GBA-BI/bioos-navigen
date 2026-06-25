@@ -22,11 +22,14 @@ This catalog records the default container images referenced by the current Bio-
 | Image | Arch | Installed Software |
 | --- | --- | --- |
 | `registry-vpc.miracle.ac.cn/broad/gtex-rnaseq:V10` | `linux/amd64` | STAR, RNA-SeQC2, RSEM |
+| `registry-vpc.miracle.ac.cn/broad/cromwell-cellranger:6.1.2` | `linux/amd64` | Cell Ranger |
+| `registry-vpc.miracle.ac.cn/devmode/seurat_harmony_yl:v5` | `linux/amd64` | R, Seurat/Harmony stack |
 | `registry-vpc.miracle.ac.cn/auto-build/nextclade-dataset-prep:20260313-v1` | `linux/amd64` | Nextclade |
 | `registry-vpc.miracle.ac.cn/auto-build/pangolin-sarscov2:20260312-v1` | `linux/amd64` | Pangolin |
 | `registry-vpc.miracle.ac.cn/auto-build/petra-cpu-paper2workspace:20260316` | `linux/amd64` |  |
 | `registry-vpc.miracle.ac.cn/auto-build/abaffinity-p2w:20260313-v1` | `linux/amd64` |  |
 | `registry-vpc.miracle.ac.cn/gznl/covfit:v1.0` | `linux/amd64` |  |
+| `registry-vpc.miracle.ac.cn/gznl/seeksoultools:20260511` | `linux/amd64` | SeekSoulTools |
 | `registry-vpc.miracle.ac.cn/auto-build/freyja-paper2workspace:20260316-2` | `linux/amd64` |  |
 | `registry-vpc.miracle.ac.cn/auto-build/hiriskpredictor-wf:v0.3` | `linux/amd64` |  |
 | `registry-vpc.miracle.ac.cn/gznl/population-immunity-wf:latest` | `linux/amd64` |  |

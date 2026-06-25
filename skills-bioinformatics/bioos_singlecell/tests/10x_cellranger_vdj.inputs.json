@@ -1,0 +1,11 @@
+{
+    "Cellranger_VDJ_Workflow.CellrangerVDJ.chemistry": "auto",
+    "Cellranger_VDJ_Workflow.CellrangerVDJ.nosecondary": true,
+    "Cellranger_VDJ_Workflow.cpu": 32,
+    "Cellranger_VDJ_Workflow.disk_gb": 500,
+    "Cellranger_VDJ_Workflow.fastq1": "drs://imc-drs.miracle.ac.cn/ed7jf56a1njdk06fbovq0",
+    "Cellranger_VDJ_Workflow.fastq2": "drs://imc-drs.miracle.ac.cn/ed7jf56a1njdk06fbous0",
+    "Cellranger_VDJ_Workflow.memory_gb": 64,
+    "Cellranger_VDJ_Workflow.sample_name": "SRR17418286",
+    "Cellranger_VDJ_Workflow.species": "GRCm39"
+}

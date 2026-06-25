@@ -1,0 +1,11 @@
+{
+    "SeekSoulToolsVdjWorkflow.chain": "TCR",
+    "SeekSoulToolsVdjWorkflow.chemistry": "DD5V1",
+    "SeekSoulToolsVdjWorkflow.core": 16,
+    "SeekSoulToolsVdjWorkflow.disk_gb": 500,
+    "SeekSoulToolsVdjWorkflow.fq1": "drs://imc-drs.miracle.ac.cn/ed85dm1a1njdk06fdfodg",
+    "SeekSoulToolsVdjWorkflow.fq2": "drs://imc-drs.miracle.ac.cn/ed85dm1a1njdk06fdfo8g",
+    "SeekSoulToolsVdjWorkflow.memory_gb": 64,
+    "SeekSoulToolsVdjWorkflow.organism": "human",
+    "SeekSoulToolsVdjWorkflow.samplename": "TCRanalysis"
+}
