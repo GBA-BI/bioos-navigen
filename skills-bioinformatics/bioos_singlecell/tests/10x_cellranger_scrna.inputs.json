@@ -1,0 +1,12 @@
+{
+    "Cellranger_10x_Workflow.CellrangerCount.chemistry": "auto",
+    "Cellranger_10x_Workflow.CellrangerCount.expect_cells": 3000,
+    "Cellranger_10x_Workflow.CellrangerCount.nosecondary": true,
+    "Cellranger_10x_Workflow.cpu": 32,
+    "Cellranger_10x_Workflow.disk_gb": 500,
+    "Cellranger_10x_Workflow.fastq1": "drs://imc-drs.miracle.ac.cn/ed7jf56a1njdk06fbovfg",
+    "Cellranger_10x_Workflow.fastq2": "drs://imc-drs.miracle.ac.cn/ed7jf56a1njdk06fbovc0",
+    "Cellranger_10x_Workflow.memory_gb": 64,
+    "Cellranger_10x_Workflow.sample_name": "SRR17418286",
+    "Cellranger_10x_Workflow.species": "GRCm39"
+}

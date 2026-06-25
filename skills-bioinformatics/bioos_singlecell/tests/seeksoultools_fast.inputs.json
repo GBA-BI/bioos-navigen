@@ -1,0 +1,12 @@
+{
+    "SeekSoulToolsFastWorkflow.chemistry": "DD-Q",
+    "SeekSoulToolsFastWorkflow.core": 8,
+    "SeekSoulToolsFastWorkflow.disk_gb": 500,
+    "SeekSoulToolsFastWorkflow.fq1": "drs://imc-drs.miracle.ac.cn/ed85dm1a1njdk06fdfoag",
+    "SeekSoulToolsFastWorkflow.fq2": "drs://imc-drs.miracle.ac.cn/ed85dm1a1njdk06fdfos0",
+    "SeekSoulToolsFastWorkflow.genome_name": "GRCh38",
+    "SeekSoulToolsFastWorkflow.genome_tar": "drs://imc-drs.miracle.ac.cn/ed85dm1a1njdk06fdfo3g",
+    "SeekSoulToolsFastWorkflow.include_introns": true,
+    "SeekSoulToolsFastWorkflow.memory_gb": 64,
+    "SeekSoulToolsFastWorkflow.samplename": "human_demo"
+}

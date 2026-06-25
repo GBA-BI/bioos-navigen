@@ -14,6 +14,7 @@ This is the business-layer skill for transcriptome-focused workflows.
 
 - Use this skill for expression-oriented RNA pipelines, RNA-seq alignment, transcript assembly, transcript quantification, and differential expression analysis.
 - Use this skill for bulk RNA-seq quantification with STAR/RNA-SeQC/RSEM in addition to STAR, HISAT2, StringTie, Kallisto, Sailfish, Cufflinks, Cuffdiff, Ballgown, DESeq2, Oases, and Trinity workflows.
+- Do not use this skill for single-cell RNA-seq counting, 10x Cell Ranger V(D)J, TCR/BCR repertoire processing, or SeekSoulTools workflows; those should route to `bioos_singlecell`.
 - Do not use this skill for variant-centric DNA or RNA calling; those should route to `bioos_genomics`.
 - Before changing image references, consult the `bioos_docker_registry_catalog` skill.
 

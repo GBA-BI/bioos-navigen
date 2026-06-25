@@ -15,7 +15,7 @@ disable: false
 This is the business-layer skill for genomics sequence-analysis workflows.
 
 - Use this skill when the user wants sequence alignment, genome assembly/scaffolding, assembly QC, insert-size analysis, sequence clustering, genome comparison, repeat analysis, or structural variant detection.
-- Keep RNA expression, single-cell counting, Iso-Seq, and small RNA workflows in `bioos_transcriptomics`.
+- Keep RNA expression, Iso-Seq, and small RNA workflows in `bioos_transcriptomics`; route single-cell counting and V(D)J workflows to `bioos_singlecell`.
 - Before changing any image reference, consult the `bioos_docker_registry_catalog` skill.
 
 ## Operating Rules
