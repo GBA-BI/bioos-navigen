@@ -49,8 +49,7 @@ Choose deterministic `repo_name` and `tag`, then submit the build through the CL
   4. Run `<bioos_launch> docker build --repo-name <repo_name> --tag <tag> --source-path /abs/path/to/archive.zip --output json --pretty`
 
 Immediately compute the final image URL as well:
-- `bioos docker url --repo-name <repo_name> --tag <tag> --output json`
-  `<bioos_launch> docker url --repo-name <repo_name> --tag <tag> --output json`
+- `<bioos_launch> docker url --repo-name <repo_name> --tag <tag> --output json`
 
 Record two things:
 - the build task id from the `docker build` JSON response
