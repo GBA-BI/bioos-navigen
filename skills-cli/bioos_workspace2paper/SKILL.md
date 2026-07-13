@@ -5,7 +5,7 @@ description: Outline and draft a scientific manuscript based on Bio-OS workspace
 
 # Bio-OS Workspace2Paper
 
-Resolve the Bio-OS CLI launcher first and refer to it as `<bioos_launch>`. If it is not known yet, explicitly load the `bioos_cli_locator` skill before running the commands below.
+Before running the commands below, use `bioos_cli_locator` if the `bioos` command or authentication has not been verified.
 
 ## Operating Principle
 This skill drafts a manuscript from analysis results already stored in a Bio-OS workspace.
@@ -16,11 +16,11 @@ This skill drafts a manuscript from analysis results already stored in a Bio-OS 
 1. Explicitly declare that `bioos_workspace_parser` skill is required, then use it to obtain a clean overview of the target workspace.
 2. Enrich the context with selected workspace files:
    - List files with:
-     `<bioos_launch> file list --workspace-name <workspace_name> --recursive --output json --pretty`
+     `bioos file list --workspace-name <workspace_name> --recursive --output json --pretty`
    - Review the hierarchy and shortlist text-based context files such as `__dashboard__.md`, logs, configs, and small CSV or TSV reports
    - Do not target large binary omics files such as `.bam`, `.fastq.gz`, `.vcf.gz`, or `.h5ad`
    - Download the selected files with repeated `--source` flags:
-     `<bioos_launch> file download --workspace-name <workspace_name> --source <path1> --source <path2> --target /local/dir --output json --pretty`
+     `bioos file download --workspace-name <workspace_name> --source <path1> --source <path2> --target /local/dir --output json --pretty`
 3. Read the downloaded files and use them to sharpen your understanding of the performed analysis.
 
 ### Stage 2: Structure and outline generation

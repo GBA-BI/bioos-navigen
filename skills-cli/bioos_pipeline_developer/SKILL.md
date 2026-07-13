@@ -15,7 +15,7 @@ Determine the exact scientific steps, tool versions, input and output contracts,
 
 - If the pipeline is being designed from conversation, gather those details from the user.
 - If the pipeline comes from a reproduction card, extract the steps and dependencies from `{UUID}_p2w_card.json`.
-- If the Bio-OS CLI launcher is still unknown, explicitly declare that `bioos_cli_locator` is required before invoking any downstream CLI-based Bio-OS skill.
+- Before invoking a downstream CLI-based Bio-OS skill, use `bioos_cli_locator` if the `bioos` command or authentication has not been verified.
 
 ### Step 2: Environment provisioning
 Every distinct task environment must be backed by a Bio-OS-compatible Docker image.

@@ -10,7 +10,7 @@ This repository maintains three complementary skill trees:
 | --- | --- | --- |
 | `skills-bioinformatics/` | Domain/business-layer skills for genomics, transcriptomics, single-cell analysis, microbiome, pathogen analysis, early warning, proteomics, and Bio-OS image catalogs. | Execution-neutral. These skills route scientific intent and refer to stable skill names such as `bioos_platform_operator`, without depending on whether the backend is MCP/plugin or CLI. |
 | `skills/` | Platform-operation skills for agents connected to Bio-OS through tools exposed by `bioos-mcp-server` or the OpenClaw BioOS plugin. | Uses tool names such as `submit_workflow`, `upload_files_to_workspace`, `get_workflow_logs`, and `create_iesapp`. |
-| `skills-cli/` | Platform-operation skills for agents that call pybioos directly from a shell. | Uses concrete CLI commands such as `<bioos_launch> workflow submit ...` and `<bioos_launch> file upload ...`. This tree includes `bioos_cli_locator` because CLI launchers vary by environment. |
+| `skills-cli/` | Platform-operation skills for agents that call pybioos directly from a shell. | Uses concrete CLI commands such as `bioos workflow submit ...` and `bioos file upload ...`. This tree includes `bioos_cli_locator` to verify CLI availability and authentication. |
 
 The intended pairing is:
 

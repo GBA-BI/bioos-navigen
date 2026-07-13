@@ -9,7 +9,7 @@ description: Archive Bio-OS workflow run resource usage into a durable Markdown 
 
 After a run finishes, preserve the usage evidence by generating a small report and uploading it into the submission's object-storage folder.
 
-Resolve the Bio-OS CLI launcher first and refer to it as `<bioos_launch>`. If it is not known yet, explicitly load the `bioos_cli_locator` skill before running commands.
+Before running Bio-OS CLI commands, use `bioos_cli_locator` if the `bioos` command or authentication has not been verified.
 
 Never print, write, or commit access keys, secret keys, bearer tokens, AAIPassport values, signed URLs, or private credentials. Do not include raw `submission list` JSON in the final answer or report because it can include sensitive fields.
 
@@ -18,16 +18,16 @@ Never print, write, or commit access keys, secret keys, bearer tokens, AAIPasspo
 Use only the commands relevant to the identifiers the user provided.
 
 ```bash
-<bioos_launch> submission list --workspace-name <workspace> --page-size 20 --output json --pretty
-<bioos_launch> run list --workspace-name <workspace> --submission-id <submission_id> --page-size 0 --output json --pretty
-<bioos_launch> run tasks --workspace-name <workspace> --run-id <run_id> --page-size 0 --output json --pretty
-<bioos_launch> run metric-data --workspace-name <workspace> --run-id <run_id> --task-name <task_name> --period 1m --start-time <task_start> --end-time <task_finish> --output json --pretty
+bioos submission list --workspace-name <workspace> --page-size 20 --output json --pretty
+bioos run list --workspace-name <workspace> --submission-id <submission_id> --page-size 0 --output json --pretty
+bioos run tasks --workspace-name <workspace> --run-id <run_id> --page-size 0 --output json --pretty
+bioos run metric-data --workspace-name <workspace> --run-id <run_id> --task-name <task_name> --period 1m --start-time <task_start> --end-time <task_finish> --output json --pretty
 ```
 
 Then write a compact local Markdown or text report from the CLI outputs and upload it:
 
 ```bash
-<bioos_launch> file upload --workspace-name <workspace> --source /abs/path/to/report.md --target <submission_target_prefix>/resource_usage/ --flatten --output json --pretty
+bioos file upload --workspace-name <workspace> --source /abs/path/to/report.md --target <submission_target_prefix>/resource_usage/ --flatten --output json --pretty
 ```
 
 ## Workflow
@@ -37,14 +37,14 @@ Then write a compact local Markdown or text report from the CLI outputs and uplo
    - If neither a submission id nor a run id is provided or already available in the conversation, ask the user which run or submission should be archived before querying Bio-OS.
    - If only a run id is provided, use it for task and metric queries; resolve the submission folder from task log paths when possible, otherwise ask the user for the submission id before upload.
 2. If a submission id is known, identify submission metadata:
-   `<bioos_launch> submission list --workspace-name <workspace> --page-size 20 --output json --pretty`
+   `bioos submission list --workspace-name <workspace> --page-size 20 --output json --pretty`
 3. If a submission id is known, list runs under the submission:
-   `<bioos_launch> run list --workspace-name <workspace> --submission-id <submission_id> --page-size 0 --output json --pretty`
+   `bioos run list --workspace-name <workspace> --submission-id <submission_id> --page-size 0 --output json --pretty`
 4. If only a run id is known, skip submission/run listing and list tasks directly.
 5. For each target run, list tasks:
-   `<bioos_launch> run tasks --workspace-name <workspace> --run-id <run_id> --page-size 0 --output json --pretty`
+   `bioos run tasks --workspace-name <workspace> --run-id <run_id> --page-size 0 --output json --pretty`
 6. For each task with complete `StartTime` and `FinishTime`, query metrics with period `1m` unless the user asks for another granularity:
-   `<bioos_launch> run metric-data --workspace-name <workspace> --run-id <run_id> --task-name <task_name> --period 1m --start-time <StartTime> --end-time <FinishTime> --output json --pretty`
+   `bioos run metric-data --workspace-name <workspace> --run-id <run_id> --task-name <task_name> --period 1m --start-time <StartTime> --end-time <FinishTime> --output json --pretty`
 7. Summarize metric arrays by point count, min, average, and peak. Use local JSON tooling such as `jq`, spreadsheet-style calculation, or Codex reasoning over the bounded JSON output. Keep the raw time series out of the final report unless the user explicitly asks for it.
 8. Write the report to a local `.md` or `.txt` file.
 9. Upload the report with `file upload` to the submission object-storage folder.
