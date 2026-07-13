@@ -5,7 +5,7 @@ description: Construct, diagnose, and compile linux/amd64 Docker images for Bio-
 
 # Bio-OS Docker Builder
 
-Resolve the Bio-OS CLI launcher first and refer to it as `<bioos_launch>`. If it is not known yet, explicitly load the `bioos_cli_locator` skill before running the commands below.
+Before running the commands below, use `bioos_cli_locator` if the `bioos` command or authentication has not been verified.
 
 ## Operating Principle
 This skill defines the standard procedure for constructing Bio-OS-compatible `linux/amd64` Docker images for workflows or IES applications.
@@ -41,15 +41,15 @@ You must follow these rules.
 Choose deterministic `repo_name` and `tag`, then submit the build through the CLI.
 
 - Direct Dockerfile build:
-  `<bioos_launch> docker build --repo-name <repo_name> --tag <tag> --source-path /abs/path/to/Dockerfile --output json --pretty`
+  `bioos docker build --repo-name <repo_name> --tag <tag> --source-path /abs/path/to/Dockerfile --output json --pretty`
 - ZIP build for Dockerfiles that use `COPY`:
   1. Create a staging directory
   2. Put `Dockerfile` and all required assets into it
   3. Zip the contents of that directory
-  4. Run `<bioos_launch> docker build --repo-name <repo_name> --tag <tag> --source-path /abs/path/to/archive.zip --output json --pretty`
+  4. Run `bioos docker build --repo-name <repo_name> --tag <tag> --source-path /abs/path/to/archive.zip --output json --pretty`
 
 Immediately compute the final image URL as well:
-- `<bioos_launch> docker url --repo-name <repo_name> --tag <tag> --output json`
+- `bioos docker url --repo-name <repo_name> --tag <tag> --output json`
 
 Record two things:
 - the build task id from the `docker build` JSON response
@@ -57,7 +57,7 @@ Record two things:
 
 ### Step 3: Monitor and retry
 Poll the build status with:
-- `<bioos_launch> docker status --task-id <task_id> --output json --pretty`
+- `bioos docker status --task-id <task_id> --output json --pretty`
 
 Use this loop:
 1. If the status says the build succeeded, stop and keep the final image URL.

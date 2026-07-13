@@ -5,7 +5,7 @@ description: Parse and orchestrate the reproduction of a computational biology p
 
 # Bio-OS Paper2Workspace
 
-Resolve the Bio-OS CLI launcher first and refer to it as `<bioos_launch>`. If it is not known yet, explicitly load the `bioos_cli_locator` skill before running the commands below.
+Before running the commands below, use `bioos_cli_locator` if the `bioos` command or authentication has not been verified.
 
 ## Operating Principle
 This skill defines the end-to-end procedure for converting a paper or analysis repository into an executable Bio-OS workspace.
@@ -302,6 +302,6 @@ Goal: publish the reproduction summary into the Bio-OS workspace.
 
 1. Write a comprehensive markdown summary to `__dashboard__.md`.
 2. Upload it with:
-   `<bioos_launch> workspace dashboard-upload --workspace-name <workspace_name> --local-file-path __dashboard__.md --output json --pretty`
+   `bioos workspace dashboard-upload --workspace-name <workspace_name> --local-file-path __dashboard__.md --output json --pretty`
 3. Set the card status to `finished`.
 4. Present the final card and tell the user the Paper2Workspace run is complete.

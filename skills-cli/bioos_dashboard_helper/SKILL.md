@@ -5,7 +5,7 @@ description: Create the Bio-OS workspace introduction and usage-guide artifact (
 
 # Bio-OS Dashboard Helper
 
-Resolve the Bio-OS CLI launcher first and refer to it as `<bioos_launch>`. If it is not known yet, explicitly load the `bioos_cli_locator` skill before running the commands below.
+Before running the commands below, use `bioos_cli_locator` if the `bioos` command or authentication has not been verified.
 
 ## Operating Principle
 In Bio-OS, `__dashboard__.md` is the workspace-level introduction and usage guide. Treat "dashboard" requests as requests to explain the whole workspace to an end user, not as chart/dashboard analytics work.
@@ -38,7 +38,7 @@ For an existing workspace introduction, create a per-workspace working directory
 
 Run the export:
 
-`<bioos_launch> workspace export --workspace-name <workspace_name> --export-path /tmp/bioos_dashboard_helper/<workspace_name> --output json --pretty`
+`bioos workspace export --workspace-name <workspace_name> --export-path /tmp/bioos_dashboard_helper/<workspace_name> --output json --pretty`
 
 Find the exported `.zip`, unzip it into:
 
@@ -48,7 +48,7 @@ Parse `ro-crate-metadata.json` with a JSON parser. Resolve the main WDL from fie
 
 Fetch profile context as a supplement:
 
-`<bioos_launch> workspace profile --workspace-name <workspace_name> --submission-limit 5 --artifact-limit-per-submission 10 --sample-rows-per-data-model 3 --output json --pretty`
+`bioos workspace profile --workspace-name <workspace_name> --submission-limit 5 --artifact-limit-per-submission 10 --sample-rows-per-data-model 3 --output json --pretty`
 
 If `workspace profile` fails but export succeeds, continue from the export and mark missing profile-only facts as unavailable. If export fails, do not invent a dashboard from memory.
 
@@ -67,7 +67,7 @@ Capture:
 
 Use this command when an imported workflow exists and a template is useful:
 
-`<bioos_launch> workflow input-template --workspace-name <workspace_name> --workflow-name <workflow_name> --output json --pretty`
+`bioos workflow input-template --workspace-name <workspace_name> --workflow-name <workflow_name> --output json --pretty`
 
 Do not guess scientific meaning, file formats, reference database paths, or result locations. If a value is not declared, write `未声明` or `未提供`.
 
@@ -102,7 +102,7 @@ Fix the local Markdown before uploading if any check fails.
 ### Step 6: Upload the workspace guide
 Upload the validated file:
 
-`<bioos_launch> workspace dashboard-upload --workspace-name <workspace_name> --local-file-path /abs/path/__dashboard__.md --output json --pretty`
+`bioos workspace dashboard-upload --workspace-name <workspace_name> --local-file-path /abs/path/__dashboard__.md --output json --pretty`
 
 Report the local path and upload status.
 
@@ -115,18 +115,18 @@ For each folder:
 2. Infer `workspace_name` and `workspace_description` from the Markdown title and overview; fall back to the folder name.
 3. Infer `workflow_name` from the WDL workflow block; fall back to `workspace_name`.
 4. Create the workspace:
-   `<bioos_launch> workspace create --workspace-name <workspace_name> --workspace-description <workspace_description> --output json --pretty`
+   `bioos workspace create --workspace-name <workspace_name> --workspace-description <workspace_description> --output json --pretty`
 5. Import the WDL:
-   `<bioos_launch> workflow import --workspace-name <workspace_name> --workflow-name <workflow_name> --workflow-source /abs/path/workflow.wdl --workflow-desc <workflow_desc> --output json --pretty`
+   `bioos workflow import --workspace-name <workspace_name> --workflow-name <workflow_name> --workflow-source /abs/path/workflow.wdl --workflow-desc <workflow_desc> --output json --pretty`
 6. Resolve the workflow id with `workflow list` if needed:
-   `<bioos_launch> workflow list --workspace-name <workspace_name> --search-keyword <workflow_name> --output json --pretty`
+   `bioos workflow list --workspace-name <workspace_name> --search-keyword <workflow_name> --output json --pretty`
 7. Poll import validation:
-   `<bioos_launch> workflow import-status --workspace-name <workspace_name> --workflow-id <workflow_id> --output json --pretty`
+   `bioos workflow import-status --workspace-name <workspace_name> --workflow-id <workflow_id> --output json --pretty`
 8. Generate, review, and upload `__dashboard__.md` using the same workspace guide standards above.
 
 Only submit the example inputs JSON when the user explicitly asks to run the imported workflow:
 
-`<bioos_launch> workflow submit --workspace-name <workspace_name> --workflow-name <workflow_name> --input-json /abs/path/inputs.json --output json --pretty`
+`bioos workflow submit --workspace-name <workspace_name> --workflow-name <workflow_name> --input-json /abs/path/inputs.json --output json --pretty`
 
 ## Local Metadata Extraction
 Use this mode when local folders already contain `__dashboard__.md` and the user wants `meta.json`.
