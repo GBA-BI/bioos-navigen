@@ -50,5 +50,14 @@ runtime {
 - The `workflow` block is mandatory
 - The `workflow` block must connect tasks in the intended execution order
 
-### Step 2: Final Output
-Present the generated WDL file path or the final WDL content and make it available for downstream platform execution.
+### Step 2: Hand off to WDL Doctor
+Immediately invoke `$bioos-wdl-doctor` after saving the WDL.
+
+1. Validate a single-file WDL by calling the doctor's remote validation API directly with `curl`.
+2. If the WDL has local `import` dependencies, package the `.wdl` files with their relative paths and use archive mode with the correct `root_wdl_path`.
+3. If validation returns `ok=false`, repair the generated file from the first parser/type/import error and validate again.
+4. Do not mark the WDL ready merely because the HTTP request returned `200`; require response `ok=true`.
+5. If the remote service is unavailable, report the service/transport failure separately and use an already available local womtool/miniwdl validator when possible.
+
+### Step 3: Final Output
+Present the generated WDL file path or final content together with the validation method and result. Mark it ready for Bio-OS import only after WDL Doctor validation passes. If validation is blocked, present the file as a draft and state the blocker.
