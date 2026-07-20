@@ -91,7 +91,7 @@ Bio-OS Navigen uses a three-tier capability model:
 
 | Tier | Layer | Examples |
 | --- | --- | --- |
-| Tier 1 | Atomic platform capabilities | `bioos_data_fetcher`, `bioos_docker_builder`, `bioos_wdl_scripter`, `bioos_workspace_parser`, `bioos_platform_operator` |
+| Tier 1 | Atomic platform capabilities | `bioos_data_fetcher`, `bioos_docker_builder`, `bioos_wdl_scripter`, `bioos-wdl-doctor`, `bioos_workspace_parser`, `bioos_platform_operator` |
 | Tier 2 | Pipeline orchestration | `bioos_pipeline_developer` |
 | Tier 3 | End-to-end SOPs | `bioos_paper2workspace`, `bioos_workspace2paper` |
 
@@ -107,6 +107,7 @@ The bioinformatics skills sit above this stack: they choose the right workflow a
 
 - Keep workflow-facing file-input behavior synchronized between `skills/` and `skills-cli/`.
 - Keep business-layer guidance in `skills-bioinformatics/` execution-neutral.
+- In CLI mode, route every newly generated WDL from `bioos_wdl_scripter` through `bioos-wdl-doctor`; route failed platform runs back through the doctor before resubmission.
 - The legacy modular prompt files live under `system_prompt/`, and `GEMINI.md` is the compiled single-file prompt for agents that cannot load skills directly.
 
 ## Contact
