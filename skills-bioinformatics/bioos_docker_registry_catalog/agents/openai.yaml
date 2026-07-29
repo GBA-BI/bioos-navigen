@@ -1,0 +1,4 @@
+interface:
+  display_name: "BioOS Image Catalog Search"
+  short_description: "Search existing Bio-OS images before building"
+  default_prompt: "Use $bioos_docker_registry_catalog to find and verify an existing image, then put its exact URL into the WDL."
