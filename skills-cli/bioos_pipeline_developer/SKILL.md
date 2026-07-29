@@ -1,6 +1,6 @@
 ---
 name: bioos_pipeline_developer
-description: Interactively design and assemble deployable Bio-OS analysis pipelines by coordinating Docker image creation, WDL authoring, and optional platform execution. Trigger this skill when a new Bio-OS pipeline must be developed.
+description: Interactively design and assemble deployable Bio-OS analysis pipelines by coordinating Docker image creation, WDL authoring, and optional platform execution. Trigger this skill whenever the user indicates that they want to develop a new analysis workflow on Bio-OS, even if they do not mention WDL, Docker, images, tasks, or tools.
 ---
 
 # Bio-OS Pipeline Developer
@@ -20,8 +20,17 @@ Determine the exact scientific steps, tool versions, input and output contracts,
 ### Step 2: Environment provisioning
 Every distinct task environment must be backed by a Bio-OS-compatible Docker image.
 
-- For each unique environment, explicitly declare that `bioos_docker_builder` is required.
-- Follow that skill to obtain a validated `docker_image` URL for every environment.
+- For each unique task environment, first declare that
+  `bioos_docker_registry_catalog` is required.
+- Use its REST API search workflow to find an existing image, inspect the
+  complete effective package inventory, and record the exact returned
+  `image_url` plus evidence.
+- Reuse a catalog image directly in the WDL when mandatory tools, versions,
+  platform, and hardware requirements match.
+- Declare `bioos_docker_builder` only when the catalog search and retry sequence
+  finds no adequate image or the user explicitly requires a custom environment.
+- Pass the missing packages and closest catalog candidates to the builder so it
+  can choose the smallest viable base image.
 
 ### Step 3: Workflow scripting
 After the images are ready:
