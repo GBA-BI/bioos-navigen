@@ -47,7 +47,7 @@ Each `task` you generate MUST adhere to the following rules:
       runtime {
           docker: docker_image
           memory: memory_gb + "GB"
-          disk_space: disk_space_gb + "GB"
+          disk: disk_space_gb + "GB"
           cpu: cpu_threads
       }
       ```
